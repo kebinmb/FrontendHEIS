@@ -1,0 +1,69 @@
+<h1 mat-dialog-title>Edit User Details</h1>
+
+<div mat-dialog-content>
+  <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+    
+    <!-- Name Field -->
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput [(ngModel)]="user.name" name="name" required />
+      <mat-error *ngIf="userForm.submitted && !user.name">Name is required</mat-error>
+    </mat-form-field>
+
+    <!-- Designation Field -->
+    <mat-form-field appearance="fill">
+      <mat-label>Designation</mat-label>
+      <input matInput [(ngModel)]="user.designation" name="designation" />
+    </mat-form-field>
+
+    <!-- Department ID Field -->
+    <mat-form-field appearance="fill">
+      <mat-label>Department ID</mat-label>
+      <input matInput type="number" [(ngModel)]="user.departmentId" name="departmentId" />
+    </mat-form-field>
+
+    <!-- Campus Field -->
+    <mat-form-field appearance="fill">
+      <mat-label>Campus</mat-label>
+      <input matInput type="number" [(ngModel)]="user.campus" name="campus" />
+    </mat-form-field>
+
+    <!-- Company Name Field -->
+    <mat-form-field appearance="fill">
+      <mat-label>Company Name</mat-label>
+      <input matInput [(ngModel)]="user.companyName" name="companyName" />
+    </mat-form-field>
+
+    <!-- Access Level Field -->
+    <mat-form-field appearance="fill">
+      <mat-label>Access Level</mat-label>
+      <input matInput type="number" [(ngModel)]="user.accessLevel" name="accessLevel" />
+    </mat-form-field>
+
+    <!-- Employee Type Field -->
+    <mat-form-field appearance="fill">
+      <mat-label>Employee Type</mat-label>
+      <input matInput [(ngModel)]="user.employeeType" name="employeeType" />
+    </mat-form-field>
+
+    <!-- Permanent Field -->
+    <mat-form-field appearance="fill">
+      <mat-label>Permanent</mat-label>
+      <input matInput type="number" [(ngModel)]="user.permanent" name="permanent" />
+    </mat-form-field>
+
+    <!-- Email Field -->
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" [(ngModel)]="user.email" name="email" required />
+      <mat-error *ngIf="userForm.submitted && !user.email">Email is required</mat-error>
+      <mat-error *ngIf="user.email && !isEmailValid()">Invalid email address</mat-error>
+    </mat-form-field>
+
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" type="submit" (click)="onSubmit()">Save</button>
+</div>

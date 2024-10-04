@@ -1,0 +1,437 @@
+<div class="wrapper">
+    <mat-tab-group>
+      <!-- Daily Reports Tab -->
+      <mat-tab label="Daily Reports">
+        <div class="container">
+          <div class="table-container">
+            <!-- Search Field -->
+            <mat-form-field appearance="outline" class="search-field">
+              <mat-label>Search</mat-label>
+              <input
+                matInput
+                (keyup)="applyFilterDailyReports($event)"
+                placeholder="Search with Document Number"
+              />
+            </mat-form-field>
+  
+            <h2>TOTAL PROCESSED DOCUMENTS:{{ finalDailyReportsArray.length }}</h2>
+            <h3 *ngIf="hasLetters()">Letters: {{ countLetters() }}</h3>
+            <h3 *ngIf="hasMemo()">Memo: {{ countMemo() }}</h3>
+            <h3 *ngIf="hasSpecialOrder()">
+              Special Order: {{ countSpecialOrder() }}
+            </h3>
+            <h3 *ngIf="hasPresidentsMemo()">
+              President's Memo: {{ countPresidentsMemo() }}
+            </h3>
+            <h3 *ngIf="hasOtherMemo()">Other Memo : {{ countOtherMemo() }}</h3>
+  
+            <!-- Date Picker Section -->
+            <div class="date-picker-container">
+              <mat-form-field appearance="fill" class="date-picker-field">
+                <mat-label>Select Date</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  [(ngModel)]="selectedDate"
+                  (dateChange)="onDateChange($event)"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+  
+              <button mat-raised-button color="primary" (click)="onChangeDate()">
+                Change Date
+              </button>
+            </div>
+  
+            <button
+              mat-raised-button
+              color="primary"
+              ngxPrint
+              [printSectionId]="'dailyReportsTable'"
+              [useExistingCss]="true"
+            >
+              Print Table
+            </button>
+            <div class="the-table-container" id="dailyReportsTable">
+              <!-- Hidden header for print view -->
+              <div id="printHeader" class="print-header">
+                <app-header-print title="DAILY REPORTS"></app-header-print>
+              </div>
+              <table
+                mat-table
+                [dataSource]="dataSourceDailyReports"
+                matSort
+                #sortDaily="matSort"
+              >
+                <!-- Document Number Column -->
+                <ng-container matColumnDef="documentNumber">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Document Number
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.documentNumber }}
+                  </td>
+                </ng-container>
+                <!-- Letter Type Column -->
+                <ng-container matColumnDef="letterType">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Letter Type
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="element.type">
+                      <ng-container *ngSwitchCase="1">Memo</ng-container>
+                      <ng-container *ngSwitchCase="2">Letter</ng-container>
+                      <ng-container *ngSwitchCase="3"
+                        >Special Orders</ng-container
+                      >
+                      <ng-container *ngSwitchCase="4"
+                        >President's Memo</ng-container
+                      >
+                      <ng-container *ngSwitchCase="5">Other Memo's</ng-container>
+                    </ng-container>
+                  </td>
+                </ng-container>
+                <!-- From Column -->
+                <ng-container matColumnDef="from">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Sender</th>
+                  <td mat-cell *matCellDef="let element">{{ element.name || 'No available sender' }}</td>
+                </ng-container>
+                <!-- Subject Column -->
+                <ng-container matColumnDef="subject">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Subject
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.subject }}
+                  </td>
+                </ng-container>
+                <!-- Time Stamp Column -->
+                <ng-container matColumnDef="timeStamp">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Date of Letter
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.timestamp | date : "MMMM dd, yyyy hh:mm aa" }}
+                  </td>
+                </ng-container>
+                <!-- Header and Row Definitions -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsDaily"></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumnsDaily"
+                ></tr>
+              </table>
+            </div>
+  
+            <!-- Paginator -->
+            <mat-paginator
+              #paginatorDaily
+              [pageSizeOptions]="[5, 10, 20, 30, 40, 50, finalDailyReportsArray.length]"
+              showFirstLastButtons
+            ></mat-paginator>
+          </div>
+        </div>
+      </mat-tab>
+  
+      <!-- Monthly Reports Tab -->
+      <mat-tab label="Monthly Reports">
+        <div class="container">
+          <div class="table-container">
+            <!-- Search Field -->
+            <mat-form-field appearance="outline" class="search-field">
+              <mat-label>Search</mat-label>
+              <input
+                matInput
+                (keyup)="applyFilterMonthlyReports($event)"
+                placeholder="Search with Document Number"
+              />
+            </mat-form-field>
+  
+            <button
+              mat-raised-button
+              color="primary"
+              ngxPrint
+              [printSectionId]="'monthlyReportsTable'"
+              [useExistingCss]="true"
+            >
+              Print Table
+            </button>
+            <!-- Table for Monthly Reports -->
+            <div class="the-table-container" id="monthlyReportsTable">
+              <!--Hidden Header-->
+              <div id="printHeader" class="print-header">
+                <app-header-print title="MONTHLY REPORTS"></app-header-print>
+              </div>
+              <table mat-table [dataSource]="dataSourceMonthlyReports" matSort >
+                <!-- Document Number Column -->
+                <ng-container matColumnDef="documentNumber">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Document Number
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.documentNumber }}
+                  </td>
+                </ng-container>
+  
+                <!-- From Column -->
+                <ng-container matColumnDef="letterType">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Letter Type
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="element.type">
+                      <ng-container *ngSwitchCase="1">Memo</ng-container>
+                      <ng-container *ngSwitchCase="2">Letter</ng-container>
+                      <ng-container *ngSwitchCase="3"
+                        >Special Orders</ng-container
+                      >
+                      <ng-container *ngSwitchCase="4"
+                        >President's Memo</ng-container
+                      >
+                      <ng-container *ngSwitchCase="5">Other Memo's</ng-container>
+                    </ng-container>
+                  </td>
+                </ng-container>
+  
+                <!-- Department Column -->
+                <ng-container matColumnDef="from">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Sender
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.name || 'No available sender'}}
+                  </td>
+                </ng-container>
+  
+                <!-- Receiver Column -->
+                <ng-container matColumnDef="subject">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Subject
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.subject || 'No available subject' }}
+                  </td>
+                </ng-container>
+                <!--Timestamp-->
+                <ng-container matColumnDef="timestamp">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Timestamp
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.timestamp | date : "MMMM dd, yyyy hh:mm aa"  }}
+                  </td>
+                </ng-container>
+                <!-- Header and Row Definitions -->
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="displayedColumnsMonthly"
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumnsMonthly"
+                ></tr>
+              </table>
+            </div>
+  
+            <!-- Input fields for Month and Year -->
+            <div class="month-year-controls">
+              <mat-form-field appearance="fill">
+                <mat-label>Month</mat-label>
+                <mat-select
+                  [(value)]="selectedMonth"
+                  (selectionChange)="onMonthChange($event.value)"
+                >
+                  <mat-option *ngFor="let month of months" [value]="month.value">
+                    {{ month.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+  
+              <mat-form-field appearance="fill">
+                <mat-label>Year</mat-label>
+                <mat-select
+                  [(value)]="selectedYear"
+                  (selectionChange)="onYearChange($event.value)"
+                >
+                  <mat-option *ngFor="let year of years" [value]="year">
+                    {{ year }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+  
+              <button mat-raised-button color="primary" (click)="updateReports()">
+                Update Reports
+              </button>
+            </div>
+  
+            <!-- Paginator -->
+            <mat-paginator
+              #paginatorMonthly
+              [pageSizeOptions]="[10, 15, 20, finalMonthlyReportsArray.length]"
+              showFirstLastButtons
+            ></mat-paginator>
+          </div>
+        </div>
+      </mat-tab>
+      <!--External Monthly Reports-->
+      <mat-tab label="External Monthly Reports Sender and Receivers">
+         <!-- Hidden header for print view -->
+        <div class="container">
+          <div class="table-container">
+            <!-- Search Field -->
+            <mat-form-field appearance="outline" class="search-field">
+              <mat-label>Search</mat-label>
+              <input
+                matInput
+                (keyup)="applyFilterExternalMonthlyReports($event)"
+                placeholder="Search with Document Number"
+              />
+            </mat-form-field>
+            <button
+              mat-raised-button
+              color="primary"
+              ngxPrint
+              [printSectionId]="'externalMonthlyReports'"
+              [useExistingCss]="true"
+            >
+              Print Table
+            </button>
+            <!-- Table for Monthly Reports -->
+  
+            <!--Hidden Header-->
+  
+            <div class="the-table-container" id="externalMonthlyReports">
+              <!-- Hidden header for print view -->
+              <div id="printHeader" class="print-header">
+                <app-header-print title="EXTERNAL MONTHLY REPORTS"></app-header-print>
+              </div>
+              <table
+                mat-table
+                [dataSource]="dataSourceExternalMonthlyReports"
+                matSort
+              >
+                <!-- Document Number Column -->
+                <ng-container matColumnDef="documentNumber">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Document Number
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.documentNumber }}
+                  </td>
+                </ng-container>
+  
+                <!-- From Column -->
+                <ng-container matColumnDef="letterType">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Letter Type
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    <ng-container [ngSwitch]="element.type">
+                      <ng-container *ngSwitchCase="1">Memo</ng-container>
+                      <ng-container *ngSwitchCase="2">Letter</ng-container>
+                      <ng-container *ngSwitchCase="3"
+                        >Special Orders</ng-container
+                      >
+                      <ng-container *ngSwitchCase="4"
+                        >President's Memo</ng-container
+                      >
+                      <ng-container *ngSwitchCase="5">Other Memo's</ng-container>
+                    </ng-container>
+                  </td>
+                </ng-container>
+  
+                <!-- Department Column -->
+                <ng-container matColumnDef="from">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Sender
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.name || 'No available sender' }}
+                  </td>
+                </ng-container>
+  
+                <!-- Receiver Column -->
+                <ng-container matColumnDef="subject">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Subject
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.subject || 'No available subject' }}
+                  </td>
+                </ng-container>
+  
+                <ng-container matColumnDef="timestamp">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Timestamp
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.timestamp | date : "MMMM dd, yyyy hh:mm aa" }}
+                  </td>
+                </ng-container>
+                
+  
+                <!-- Header and Row Definitions -->
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="displayedColumnsExternal"
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumnsExternal"
+                ></tr>
+              </table>
+            </div>
+            <!-- Table for External Monthly Reports -->
+  
+            <!-- Input fields for Month and Year -->
+            <div class="month-year-controls">
+              <mat-form-field appearance="fill">
+                <mat-label>Month</mat-label>
+                <mat-select
+                  [(value)]="selectedMonthExternal"
+                  (selectionChange)="onMonthChangeExternal($event.value)"
+                >
+                  <mat-option *ngFor="let month of months" [value]="month.value">
+                    {{ month.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+  
+              <mat-form-field appearance="fill">
+                <mat-label>Year</mat-label>
+                <mat-select
+                  [(value)]="selectedYearExternal"
+                  (selectionChange)="onYearChangeExternal($event.value)"
+                >
+                  <mat-option *ngFor="let year of years" [value]="year">
+                    {{ year }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+  
+              <button mat-raised-button color="primary" (click)="updateReports()">
+                Update Reports
+              </button>
+            </div>
+  
+            <!-- Paginator -->
+            <mat-paginator
+              #paginatorExternal
+              [pageSizeOptions]="[
+                10,
+                15,
+                20,
+                finalExternalMonthlyReportsArray.length
+              ]"
+              showFirstLastButtons
+            ></mat-paginator>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  

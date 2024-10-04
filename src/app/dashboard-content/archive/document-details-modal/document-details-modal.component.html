@@ -1,0 +1,42 @@
+<div class="row mt-3">
+    <h1 mat-dialog-title class="dialog-title">Document Details</h1>
+  </div>
+  
+  <div mat-dialog-content class="dialog-content">
+    <mat-card class="details-card">
+      <mat-card-header>
+        <mat-card-title class="card-title">Subject: {{ data.subject }}</mat-card-title>
+        <mat-card-subtitle class="card-subtitle">
+          <span>From: {{ data.userNameSender }}</span> |
+          <span>To: {{ data.receiverNames }}</span> |
+          <span>{{ data.timestamp | date : 'MMMM dd, yyyy' }}</span>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="email-details">
+          <div class="detail-row">
+            <strong>Document Number:</strong>
+            <span>{{ data.documentNumber }}</span>
+          </div>
+          <div class="detail-row">
+            <strong>Letter Type:</strong>
+            <span>{{ getLetterType(data.type) }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  
+    <!-- Image Display -->
+    <div *ngIf="data.attachment" class="image-container">
+      <mat-card class="image-card" *ngFor="let url of imageUrls">
+        <mat-card-content>
+          <img id="card-image" mat-card-image [src]="url" alt="Document Image">
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  
+  <div mat-dialog-actions class="dialog-actions">
+    <button mat-raised-button color="primary" (click)="onClose()">Close</button>
+  </div>
+  

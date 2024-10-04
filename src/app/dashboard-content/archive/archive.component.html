@@ -1,0 +1,114 @@
+<app-spinner [isLoading]="isLoading"></app-spinner>
+<div class="wrapper">
+  <div class="container">
+    <div class="table-container">
+      <!-- Search Field -->
+      <mat-form-field appearance="fill" class="search-field">
+        <mat-label>Search</mat-label>
+        <input
+          matInput
+          (keyup)="applyFilter($event)"
+          placeholder="Search"
+        />
+      </mat-form-field>
+
+      <!-- Table for Monthly Reports -->
+      <div id="monthlyReportsTable">
+        <div id="printHeader" class="print-header">
+          <h1>Monthly Reports</h1>
+        </div>
+        <table mat-table [dataSource]="dataSourceArchives" matSort>
+          <!-- Document Number Column -->
+          <ng-container matColumnDef="documentNumber">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Document Number
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <a href="javascript:void(0);" (click)="openDialog(element)">
+                {{ element.documentNumber }}
+              </a>
+            </td>
+          </ng-container>
+
+          <!-- Sender Column -->
+          <ng-container matColumnDef="userNameSender">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sender</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.userNameSender }}
+            </td>
+          </ng-container>
+
+          <!-- Letter Type Column -->
+          <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Letter Type
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <ng-container [ngSwitch]="element.type">
+                <ng-container *ngSwitchCase="1">Memo</ng-container>
+                <ng-container *ngSwitchCase="2">Letter</ng-container>
+                <ng-container *ngSwitchCase="3">Special Orders</ng-container>
+                <ng-container *ngSwitchCase="4">President's Memo</ng-container>
+                <ng-container *ngSwitchCase="5">Other Memo's</ng-container>
+                <ng-container *ngSwitchDefault>Unknown</ng-container>
+              </ng-container>
+            </td>
+          </ng-container>
+
+          <!-- Receiver Column -->
+          <ng-container matColumnDef="userName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Receiver</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.receiverNames || 'Unknown Receiver' }}
+              
+            </td>
+          </ng-container>
+
+          <!-- Subject Column -->
+          <ng-container matColumnDef="subject">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Subject</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.subject || 'No available subject' }}
+            </td>
+          </ng-container>
+
+          <!-- Timestamp Column -->
+          <ng-container matColumnDef="timestamp">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Timestamp</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.timestamp | date : "MMMM dd, yyyy hh:mm aa" }}
+            </td>
+          </ng-container>
+
+          <!-- Header and Row Definitions -->
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsArchives"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumnsArchives"
+          ></tr>
+        </table>
+      </div>
+
+      <!-- Input fields for Month and Year -->
+      <div class="month-year-controls">
+        <button
+          mat-raised-button
+          color="primary"
+          ngxPrint
+          [printSectionId]="'monthlyReportsTable'"
+          [useExistingCss]="true"
+          class="print-button"
+        >
+          Print Table
+        </button>
+        <!-- Paginator -->
+        <mat-paginator
+          #paginatorArchives
+          [pageSizeOptions]="[10, 20, 30, 40, 50]"
+          showFirstLastButtons
+          class="paginator"
+        ></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

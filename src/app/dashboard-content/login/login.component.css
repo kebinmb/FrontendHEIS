@@ -1,0 +1,117 @@
+.login-card {
+  max-width: 360px;
+  padding: 10px;
+  border-radius: var(--rounded-corners);
+  background-color: var(--bg-color);
+  box-shadow: none;
+
+  & .mat-mdc-card-header {
+    padding: 0px 20px 10px 20px;
+    border-radius: var(--rounded-corners);
+  }
+  & .mat-mdc-card-content:last-child {
+    background-color: var(--fg-color);
+    padding: 20px;
+    border-radius: var(--rounded-corners);
+
+    & > :last-child:not(.mat-mdc-card-footer) {
+      display: flex;
+      flex-flow: column;
+      gap: 15px;
+    }
+  }
+}
+
+/* .login-card
+  .mat-mdc-card-content:last-child
+  > :last-child:not(.mat-mdc-card-footer) {
+  background-color: red;
+} */
+
+.text-center {
+  text-align: center;
+}
+
+.form-field {
+  width: 100%;
+  border-radius: var(--rounded-corners);
+  overflow: hidden;
+  border: 1px solid var(--mdc-outlined-text-field-outline-color);
+  background-color: var(--fg-color);
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.submit-button {
+  width: 100%;
+  border-radius: var(--rounded-corners);
+  padding: 1.5rem 0;
+}
+
+.additional-links {
+  display: flex;
+  gap: 40px;
+}
+
+.additional-links a {
+  display: block;
+  font-size: 14px;
+  height: auto;
+  padding: 0;
+  &:last-child {
+    text-align: right;
+  }
+}
+
+::ng-deep .ng-star-inserted:has(> .login-card) {
+  display: grid;
+  place-content: center;
+  min-height: 100dvh;
+  background-position: center;
+  /* background-image: url(../../assets/chmsubackground.jpg); */
+  background-size: cover;
+  background-position-x: left;
+  background-position-y: top;
+  position: relative;
+
+  &::before {
+    content: "";
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(
+      145deg,
+      var(--mat-primary) 0%,
+      #ffffff 100%
+    );
+    position: absolute;
+    /* background-color: white; */
+    opacity: 0.5;
+    filter: contrast(0.5);
+  }
+}
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: 1px solid #4285F4;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #4285F4;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.google-btn:hover {
+  background-color: #f1f1f1;
+}
+
+.google-logo {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}

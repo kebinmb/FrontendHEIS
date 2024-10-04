@@ -1,0 +1,71 @@
+<h2 mat-dialog-title>Edit Department Details</h2>
+<mat-dialog-content>
+  <form (ngSubmit)="onSubmit()" #departmentForm="ngForm" class="form-container">
+    <div class="form-group">
+      <mat-form-field appearance="fill">
+        <mat-label>Department Code</mat-label>
+        <input
+          matInput
+          type="text"
+          id="departmentCode"
+          required
+          [(ngModel)]="institution.departmentCode"
+          name="departmentCode"
+          #departmentCode="ngModel"
+        />
+        <mat-error *ngIf="departmentCode.invalid && departmentCode.touched">
+          Department Code is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <mat-form-field appearance="fill">
+        <mat-label>Department Name</mat-label>
+        <input
+          matInput
+          type="text"
+          id="departmentName"
+          required
+          [(ngModel)]="institution.departmentTitle"
+          name="departmentTitle"
+          #departmentTitle="ngModel"
+        />
+        <mat-error *ngIf="departmentTitle.invalid && departmentTitle.touched">
+          Department Name is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <mat-form-field appearance="fill">
+        <mat-label>Email Receiver</mat-label>
+        <mat-select
+          [(ngModel)]="institution.emailReceiver"
+          name="emailReceiver"
+          #emailReceiver="ngModel"
+          required
+        >
+          <mat-option *ngFor="let option of userArray" [value]="option.userId">
+            {{ option.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="emailReceiver.invalid && emailReceiver.touched">
+          Email Receiver is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button
+    mat-button
+    color="primary"
+    (click)="onSubmit()"
+    [disabled]="departmentForm.invalid"
+  >
+    Save Changes
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,23 @@
+.wrapper {
+  padding: 0px 40px 40px 40px;
+  margin-left: 220px;
+  margin-top: 10vh;
+}
+
+.email-row {
+  display: flex;
+  align-items: center;
+}
+
+.email-input {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.delete-email {
+  margin-top: 25px;
+}
+
+.add-email-btn {
+  margin-top: 15px;
+}

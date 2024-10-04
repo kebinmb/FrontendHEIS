@@ -1,0 +1,107 @@
+<div class="wrapper">
+    <div class="container">
+      <!-- logs.component.html -->
+      <mat-tab-group>
+        <mat-tab label="Authentication Logs">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Authentication Logs</mat-card-title>
+            </mat-card-header>
+  
+            <mat-card-content>
+              <!-- Date Picker -->
+              <mat-form-field appearance="fill" class="date-picker">
+                <mat-label>Select Date</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  (dateChange)="onDateChange($event)"
+                  [value]="currentDate"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+  
+              <!-- Loading Spinner -->
+              <ng-container *ngIf="loadingUserLogsList$ | async; else content">
+                <div class="loading-container">
+                  <mat-spinner></mat-spinner>
+                  <p>Loading logs...</p>
+                </div>
+              </ng-container>
+  
+              <!-- Error Message -->
+              <ng-template #errorContent>
+                <div
+                  *ngIf="errorUserLogsList$ | async as error"
+                  class="error-message"
+                >
+                  <mat-error>An error occurred: {{ error | json }}</mat-error>
+                </div>
+              </ng-template>
+  
+              <!-- Table Content -->
+              <ng-template #content>
+                <div
+                  class="the-table-container"
+                  *ngIf="!(errorUserLogsList$ | async)"
+                >
+                  <table
+                    mat-table
+                    [dataSource]="finalLogsArray"
+                    class="mat-elevation-z4"
+                  >
+                    <!-- Columns Definitions -->
+                    <ng-container matColumnDef="date">
+                      <th mat-header-cell *matHeaderCellDef>Date</th>
+                      <td mat-cell *matCellDef="let log">
+                        {{
+                          log.timestamp
+                          
+                            ? (log.timestamp | date : "MMMM dd, yyyy hh:mm:ss aa")
+                            : "No Date Available"
+                        }}
+                      </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="userName">
+                      <th mat-header-cell *matHeaderCellDef>User Name</th>
+                      <td mat-cell *matCellDef="let log">{{ log.userName }}</td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="action">
+                      <th mat-header-cell *matHeaderCellDef>Action</th>
+                      <td mat-cell *matCellDef="let log">{{ log.message }}</td>
+                    </ng-container>
+  
+                    <!-- Header and Row Definitions -->
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr
+                      mat-row
+                      *matRowDef="let row; columns: displayedColumns"
+                    ></tr>
+                  </table>
+                </div>
+              </ng-template>
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
+        <mat-tab label="Document Processing Logs">
+          <app-logs-document></app-logs-document>
+        </mat-tab>
+        <mat-tab label="User and Department Maintenance Logs">
+          <app-user-maintenance-logs></app-user-maintenance-logs>
+        </mat-tab>
+        <!-- <mat-tab label="User Credentials Logs">
+          <app-credentials-logs></app-credentials-logs>
+        </mat-tab> -->
+        <mat-tab label="Activity Logs">
+          <app-activitylogs></app-activitylogs>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+  

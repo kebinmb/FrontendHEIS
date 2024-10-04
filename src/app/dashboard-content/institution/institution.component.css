@@ -1,0 +1,86 @@
+/* Style for the wrapper to add margin and padding */
+.wrapper {
+    padding: 0px 40px 40px 40px;
+    margin-left: 220px;
+    margin-top: 10vh;
+  }
+  
+  /* Style for the table container */
+  .table-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  /* Style the header title */
+  .header-title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .the-table-container {
+    border: 1px solid var(--mat-table-row-item-outline-color);
+    overflow: hidden;
+    border-radius: var(--rounded-corners);
+  }
+  
+  /* Style the table to ensure readability */
+  table {
+    border-radius: var(--rounded-corners);
+    border-collapse: collapse;
+    width: 100%;
+    box-shadow: none;
+    & thead tr th {
+      background-color: var(--bg-color) !important;
+    }
+  }
+  
+  /* Style the table header cells */
+  th.mat-header-cell {
+    background-color: #f5f5f5;
+    font-weight: bold;
+  }
+  
+  /* Style the table data cells */
+  td.mat-cell {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* Add spacing to the action links */
+  .action-link {
+    margin-right: 8px;
+    text-decoration: none;
+    color: #007bff; /* Primary color for links */
+  }
+  
+  /* Style for the controls section */
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Style the add button */
+  .add-button {
+    border-radius: var(--rounded-corners);
+    padding: 1.5rem !important;
+  }
+  
+  .mat-mdc-tab-body-content {
+    background-color: var(--fg-color);
+    padding: 20px;
+  }
+  
+  .mat-mdc-tab-body-wrapper {
+    padding: 20px;
+    background-color: var(--fg-color);
+  }
+  
+  ::ng-deep .mat-mdc-tab-body-content {
+    background-color: var(--fg-color) !important;
+    padding: 20px 20px !important;
+  }
+  

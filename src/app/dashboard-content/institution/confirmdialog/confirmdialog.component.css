@@ -1,0 +1,46 @@
+/* dialog-title: style for the title */
+.dialog-title {
+    font-size: 24px; /* Larger font size for the title */
+    font-weight: 500;
+    margin: 24px 0; /* Spacing above and below the title */
+  }
+  
+  /* dialog-content: style for the content area */
+  .dialog-content {
+    font-size: 16px; /* Standard font size for readability */
+    line-height: 1.5; /* Improve readability */
+    margin-bottom: 24px; /* Space between content and actions */
+  }
+  
+  /* dialog-actions: style for the action buttons container */
+  .dialog-actions {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    gap: 16px; /* Space between buttons */
+    padding-top: 24px; /* Space above the buttons */
+  }
+  
+  /* cancel-button: style for the cancel button */
+  .cancel-button {
+    color: #555; /* Dark grey color for secondary actions */
+    border-radius: 4px; /* Rounded corners */
+    padding: 8px 16px; /* Padding inside the button */
+  }
+  
+  /* confirm-button: style for the confirm button */
+  .confirm-button {
+    background-color: #3f51b5; /* Primary color */
+    color: white; /* Text color */
+    border-radius: 4px; /* Rounded corners */
+    padding: 8px 16px; /* Padding inside the button */
+  }
+  
+  /* Optional: hover effects for buttons */
+  .cancel-button:hover {
+    background-color: #f0f0f0; /* Light grey background on hover */
+  }
+  
+  .confirm-button:hover {
+    background-color: #303f9f; /* Darker shade of primary color on hover */
+  }
+  

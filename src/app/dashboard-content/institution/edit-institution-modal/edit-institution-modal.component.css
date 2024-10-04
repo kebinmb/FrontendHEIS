@@ -1,0 +1,21 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Adjust spacing between fields */
+  }
+
+  .form-group {
+    width: 100%; /* Ensure form fields take full width */
+  }
+
+  mat-form-field {
+    width: 100%; /* Ensure form fields take full width */
+  }
+
+  mat-dialog-actions {
+    margin-top: 16px; /* Add space above the action buttons */
+  }
+
+  button {
+    margin-left: 8px; /* Add space between buttons */
+  }

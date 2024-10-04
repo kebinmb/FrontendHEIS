@@ -1,0 +1,44 @@
+/* Add some padding and margin to the dialog title */
+.dialog-title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  /* Style the form container to ensure proper spacing */
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Space between form fields */
+  }
+  
+  /* Style each form field to have consistent margin */
+  .form-field {
+    width: 100%; /* Full width of the container */
+  }
+  
+  /* Add margin to action buttons */
+  .action-button {
+    margin: 0 8px; /* Space between buttons */
+  }
+  
+  /* Add a bit of margin to the dialog content */
+  mat-dialog-content {
+    padding: 24px;
+  }
+  
+  /* Style the dialog actions section */
+  mat-dialog-actions {
+    padding: 16px;
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+  }
+  .action-button {
+    margin: 0 8px; /* Space between buttons */
+  }
+  
+  /* Additional styles for the 'Add' button */
+  button[mat-raised-button] {
+    margin-left: auto; /* Pushes the 'Add' button to the right if placed in a flex container */
+  }
+  

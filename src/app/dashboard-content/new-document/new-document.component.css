@@ -1,0 +1,220 @@
+/* General styles */
+.wrapper {
+    padding: 0px 40px 40px 40px;
+    margin-left: 220px;
+    margin-top: 88px;
+  }
+  
+  .container {
+    padding: 0;
+  }
+  
+  /* Search field styling */
+  .search-field {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  
+  /* Date picker section styling */
+  .date-picker-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .date-picker-field {
+    flex: 1;
+    margin-right: 16px;
+  }
+  
+  button.mat-raised-button {
+    margin-left: 8px;
+  }
+  
+  /* Table container styling */
+  .table-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Table styling */
+  table.mat-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th.mat-header-cell {
+    background-color: #e0e0e0;
+    color: #000;
+    font-weight: bold;
+  }
+  
+  td.mat-cell {
+    padding: 8px;
+  }
+  
+  tr.mat-row:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+  
+  tr.mat-row:nth-child(even) {
+    background-color: #fff;
+  }
+  
+  ::ng-deep .mat-mdc-tab-body-content {
+    background-color: var(--fg-color);
+    padding: 20px 20px;
+  }
+  
+  /* Pagination styling */
+  mat-paginator {
+    margin: 16px 0;
+  }
+  
+  /* Month and Year controls styling */
+  .month-year-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .mat-form-field {
+    width: 150px;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 600px) {
+    .month-year-controls {
+      flex-direction: column;
+    }
+  
+    .mat-form-field {
+      width: 100%;
+    }
+  
+    .date-picker-container {
+      flex-direction: column;
+    }
+  
+    .date-picker-field {
+      margin-right: 0;
+      margin-bottom: 8px;
+    }
+  }
+  /* Hide the print header in screen view */
+  .print-header {
+    display: none;
+  }
+  
+  /* Show the print header only in print view */
+  @media print {
+    .wrapper {
+      font-family: Roboto, sans-serif; /* Match Angular Material default font */
+      padding: 20px;
+      background: #fff;
+      color: #000;
+      margin: 0;
+    }
+  
+    .container {
+      margin: 0;
+      padding: 0;
+    }
+  
+    .table-container {
+      border: 1px solid #e0e0e0; /* Use a lighter border to match Angular Material */
+      margin-top: 20px;
+    }
+  
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+  
+    th,
+    td {
+      border: 1px solid #e0e0e0; /* Match Angular Material table border color */
+      padding: 8px;
+      text-align: left; /* Default alignment for table data cells */
+      font-size: 14px; /* Match Angular Material table font size */
+    }
+  
+    th {
+      background-color: #f5f5f5; /* Light gray background for headers */
+      font-weight: 500; /* Semi-bold to match Angular Material header weight */
+      text-align: center; /* Center text in table headers */
+    }
+  
+    h2,
+    h3 {
+      margin: 0 0 10px 0;
+      font-size: 16px; /* Match the size used in Angular Material components */
+      color: #333; /* Dark gray for better readability */
+    }
+  
+    .print-header {
+      display: block;
+      text-align: center;
+      color: #000; /* Black for print for clarity */
+      margin-bottom: 20px;
+      font-size: 18px;
+      font-weight: 500; /* Semi-bold to match Angular Material */
+    }
+  
+    @page {
+      size: A4;
+      margin: 20mm; /* Ensure content fits well on the page */
+    }
+  
+    /* Hide other elements or apply print-specific styles if needed */
+    button {
+      display: none; /* Hide the print button in print view */
+    }
+  }
+  
+  ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    border-radius: var(--rounded-corners) !important;
+    border: 1px solid var(--mdc-outlined-text-field-outline-color) !important;
+    background-color: white !important;
+  }
+  
+  ::ng-deep .mdc-text-field--disabled {
+    border-radius: var(--rounded-corners) !important;
+    border: 1px solid var(--mdc-outlined-text-field-outline-color) !important;
+  }
+  
+  ::ng-deep .mdc-text-field--filled {
+    --mdc-filled-text-field-active-indicator-height: 0px;
+    --mdc-filled-text-field-focus-active-indicator-height: 2px;
+  }
+  
+  ::ng-deep
+    .mdc-text-field--filled:not(.mdc-text-field--disabled)
+    .mdc-line-ripple::before {
+    border-bottom-color: var(--mdc-filled-text-field-active-indicator-color);
+    border: none;
+  }
+  
+  ::ng-deep .add-cc-button {
+    padding: 20px !important;
+    border-radius: var(--rounded-corners) !important;
+    background-color: color-mix(
+      in srgb,
+      var(--mat-primary),
+      white 90%
+    ) !important;
+    color: var(--mat-primary) !important;
+    border: 1px solid var(--mat-primary) !important;
+  }
+  
+  ::ng-deep .remove-cc-button {
+    border: 1px solid var(--mat-primary) !important;
+  }
+  
+  ::ng-deep .bg-primary {
+    --bs-bg-opacity: 1;
+    background-color: var(--mat-primary) !important;
+  }
+  

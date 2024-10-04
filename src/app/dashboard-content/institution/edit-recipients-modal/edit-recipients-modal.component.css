@@ -1,0 +1,49 @@
+/* General styles for the dialog title */
+h1[mat-dialog-title] {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #3f51b5; /* Primary color */
+    margin-bottom: 20px;
+  }
+  
+  /* Style for the form container */
+  mat-dialog-content {
+    padding: 20px;
+  }
+  
+  /* Style for form fields */
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  /* Style for input fields */
+  mat-form-field input.mat-input-element {
+    font-size: 1rem;
+  }
+  
+  /* Style for error messages */
+  mat-error {
+    font-size: 0.875rem;
+    color: #f44336; /* Error color */
+  }
+  
+  /* Style for action buttons */
+  mat-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px;
+  }
+  
+  /* Style for the Cancel button */
+  button.mat-button {
+    margin-right: 10px;
+    font-size: 0.875rem;
+  }
+  
+  /* Style for the Save button */
+  button.mat-raised-button {
+    font-size: 0.875rem;
+    padding: 8px 16px;
+  }
+  

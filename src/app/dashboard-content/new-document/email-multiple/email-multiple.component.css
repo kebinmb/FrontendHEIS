@@ -1,0 +1,171 @@
+/* .wrapper{
+    margin-left: 220px;
+    display: flex;
+    justify-content: center;
+    margin-top:10vh
+    
+}
+
+::ng-deep .mat-mdc-form-field{
+    width: 100%;
+} */
+
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* .wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f9f9f9;
+      padding: 2rem;
+      margin-left: 220px;
+      margin-top:10vh;
+    }
+    
+    
+    .container {
+      max-width: 900px;
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    } */
+  .spinner-overlay {
+    position: fixed; /* Fixed positioning to cover the entire viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex; /* Flexbox to center the spinner */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's on top of other content */
+  }
+  .mt-4 {
+    margin-top: 1.5rem;
+  }
+  
+  /* Responsive row and column layout */
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+  
+  .col {
+    flex: 1;
+    min-width: 300px;
+  }
+  
+  /* Form field styles */
+  mat-form-field {
+    width: 100%;
+  }
+  
+  textarea {
+    resize: vertical;
+  }
+  
+  /* Submit button styles */
+  button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    /* background-color: #1976d2; */
+    color: white;
+    border: none;
+    border-radius: var(--rounded-corners);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button[type="submit"]:hover {
+    /* background-color: #1565c0; */
+  }
+  
+  /* Progress bar styles */
+  .mat-progress-bar {
+    margin-top: 1.5rem;
+  }
+  
+  /* Angular Material form field and select styles */
+  .mat-form-field,
+  .mat-select,
+  .mat-input-element {
+    background-color: #fff;
+    border-radius: 4px;
+  }
+  
+  .mat-form-field .mat-form-field-label,
+  .mat-select-value-text {
+    color: #1976d2;
+  }
+  
+  .mat-input-element:focus,
+  .mat-select:focus {
+    border-color: #1976d2;
+  }
+  
+  /* Error message styles */
+  .mat-error span,
+  .mat-error small {
+    color: #d32f2f;
+  }
+  
+  /* Responsive adjustments for smaller screens */
+  @media (max-width: 768px) {
+    .container {
+      padding: 1rem;
+    }
+  
+    .col {
+      min-width: 100%;
+    }
+  }
+  
+  /* Custom styles for file input */
+  input[type="file"] {
+    display: block;
+    margin-top: 1rem;
+  }
+  
+  /* Add button styles */
+  button.mat-icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    transition: background-color 0.3s ease;
+  }
+  
+  button.mat-icon-button:hover {
+    background-color: #d6d6d6;
+  }
+  
+  button.mat-button {
+    margin-top: 1rem;
+    background-color: #1976d2;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button.mat-button:hover {
+    background-color: #1565c0;
+  }
+  

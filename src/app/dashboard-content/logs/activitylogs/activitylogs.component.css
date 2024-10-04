@@ -1,0 +1,36 @@
+.mat-elevation-z4 {
+    box-shadow: none;
+  }
+  
+  .the-table-container {
+    border: 1px solid var(--mat-table-row-item-outline-color);
+    border-radius: var(--rounded-corners);
+    overflow: hidden;
+    & table {
+      & thead {
+        th {
+          background-color: var(--bg-color);
+        }
+      }
+    }
+  }
+  
+  ::ng-deep .mat-mdc-tab-body-content {
+    background-color: var(--fg-color) !important;
+    padding: 20px 20px !important;
+  }
+  
+  ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    border-radius: var(--rounded-corners) !important;
+    border: 1px solid var(--mdc-outlined-text-field-outline-color) !important;
+    background-color: white !important;
+  }
+  
+  .mat-mdc-card {
+    box-shadow: none;
+  }
+  
+  .mat-mdc-card-header {
+    padding-bottom: 20px;
+  }
+  
