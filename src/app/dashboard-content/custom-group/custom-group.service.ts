@@ -10,23 +10,26 @@ import { environment } from 'src/environments/environment';
 export class CustomGroupService {
   private apiServerUrl = environment.apiBaseUrl;
   constructor(private http:HttpClient,private tokenService:TokenService) { }
-    createCustomGroup(formData: FormData):Observable<string>{
+  
+  createCustomGroup(formData: FormData): Observable<string> {
     return this.tokenService.getToken().pipe(
-      switchMap((response:any)=>{
-        const token = response.accessToken;
-        const headers = new HttpHeaders({
-          'Authorization': `Bearer ${token}`
-        });
+        switchMap((response: any) => {
+            const token = response.accessToken; // Retrieve the access token
+            const headers = new HttpHeaders({
+                'Authorization': `Bearer ${token}` // Set the Authorization header
+            });
 
-        return this.http.post<string>(`${this.apiServerUrl}/customgroup/newGroup`,formData,{
-          headers : headers,
-          responseType: 'text' as 'json',
-          withCredentials:true
-        });
-      }),
-      catchError(this.handleError)
+            return this.http.post<string>(`${this.apiServerUrl}/customgroup/newGroup`, formData, {
+                headers: headers,
+                responseType: 'text' as 'json', // Treat the response as text
+                withCredentials: true
+            });
+        }),
+        catchError(this.handleError) // Handle errors
     );
-  }
+}
+
+  
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'An unknown error occurred!';
     if (error.error instanceof ErrorEvent) {

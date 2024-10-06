@@ -1,265 +1,264 @@
 <div class="wrapper">
-    <div class="container">
-      <form
-        [formGroup]="emailForm"
-        (ngSubmit)="sendEmail()"
-        enctype="multipart/form-data"
-      >
-        <div class="row">
-          <div class="col">
-            <mat-form-field appearance="fill">
-              <mat-label>Document Number</mat-label>
-              <input
-                matInput
-                id="documentNumber"
-                formControlName="documentNumber"
-                type="number"
-                [value]="nextDocumentNumber"
-              />
-              <mat-error *ngIf="getControl('documentNumber')?.invalid">
-                <span *ngIf="getControl('documentNumber')?.errors?.['required']"
-                  >Document Number is required.</span
-                >
-                <span *ngIf="getControl('documentNumber')?.errors?.['min']"
-                  >Document Number must be at least 1.</span
-                >
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col">
-            <mat-form-field appearance="fill">
-              <mat-label>Choose a date</mat-label>
-              <input
-                matInput
-                [matDatepicker]="picker"
-                formControlName="dateOfLetter"
-              />
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="picker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-              <mat-error *ngIf="getControl('dateOfLetter')?.invalid">
-                <span *ngIf="getControl('dateOfLetter')?.errors?.['required']"
-                  >Date is required.</span
-                >
-                <span
-                  *ngIf="getControl('dateOfLetter')?.errors?.['matDatepickerParse']"
-                  >Invalid date format.</span
-                >
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-  
-        <div class="row">
+  <div class="container">
+    <form
+      [formGroup]="emailForm"
+      (ngSubmit)="sendEmail()"
+      enctype="multipart/form-data"
+    >
+      <div class="row">
+        <div class="col">
           <mat-form-field appearance="fill">
-            <mat-label>Subject</mat-label>
-            <textarea matInput id="subject" formControlName="subject"></textarea>
-            <mat-error *ngIf="getControl('subject')?.invalid">
-              <span *ngIf="getControl('subject')?.errors?.['required']"
-                >Subject is required.</span
+            <mat-label>Document Number</mat-label>
+            <input
+              matInput
+              id="documentNumber"
+              formControlName="documentNumber"
+              type="number"
+              [value]="nextDocumentNumber"
+            />
+            <mat-error *ngIf="getControl('documentNumber')?.invalid">
+              <span *ngIf="getControl('documentNumber')?.errors?.['required']"
+                >Document Number is required.</span
               >
-              <span *ngIf="getControl('subject')?.errors?.['maxlength']"
-                >Subject cannot exceed 100 characters.</span
+              <span *ngIf="getControl('documentNumber')?.errors?.['min']"
+                >Document Number must be at least 1.</span
               >
             </mat-error>
           </mat-form-field>
         </div>
-  
-        <div class="row">
-          <div class="col">
-            <mat-form-field>
-              <mat-label>Type</mat-label>
-              <mat-select formControlName="type">
-                <mat-option value="1">Memo</mat-option>
-                <mat-option value="2">Letter</mat-option>
-                <mat-option value="3">Special Order</mat-option>
-                <mat-option value="4">President's Memo</mat-option>
-                <mat-option value="5">Other Memo</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="col">
-            <mat-form-field>
-              <mat-label for="through">Through</mat-label>
-              <input
-                matInput
-                id="through"
-                formControlName="through"
-                [matAutocomplete]="throughAuto"
-              />
-              <mat-error
-                *ngIf="
-                  getControl('through')?.invalid &&
-                  (getControl('through')?.dirty || getControl('through')?.touched)
-                "
+        <div class="col">
+          <mat-form-field appearance="fill">
+            <mat-label>Choose a date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              formControlName="dateOfLetter"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="getControl('dateOfLetter')?.invalid">
+              <span *ngIf="getControl('dateOfLetter')?.errors?.['required']"
+                >Date is required.</span
               >
-                <small
-                  class="text-danger"
-                  *ngIf="getControl('through')?.errors?.['required']"
-                  >Through is required.</small
-                >
-              </mat-error>
-              <mat-autocomplete #throughAuto="matAutocomplete">
-                <mat-option
-                  *ngFor="let option of filteredThroughUsers | async"
-                  [value]="option"
-                  >{{ option }}</mat-option
-                >
-              </mat-autocomplete>
-            </mat-form-field>
-          </div>
+              <span
+                *ngIf="getControl('dateOfLetter')?.errors?.['matDatepickerParse']"
+                >Invalid date format.</span
+              >
+            </mat-error>
+          </mat-form-field>
         </div>
-  
-        <div class="row">
-          <div class="col">
-            <mat-form-field>
-              <mat-label for="from">From</mat-label>
-              <input
-                matInput
-                id="from"
-                formControlName="from"
-                [matAutocomplete]="fromAuto"
-                required
-              />
-              <mat-error
-                *ngIf="
-                  getControl('from')?.invalid &&
-                  (getControl('from')?.dirty || getControl('from')?.touched)
-                "
-              >
-                <small
-                  class="text-danger"
-                  *ngIf="getControl('from')?.errors?.['required']"
-                  >From is required.</small
-                >
-              </mat-error>
-              <mat-autocomplete #fromAuto="matAutocomplete">
-                <mat-option
-                  *ngFor="let option of filteredFromUsers | async"
-                  [value]="option"
-                  >{{ option }}</mat-option
-                >
-              </mat-autocomplete>
-            </mat-form-field>
-          </div>
-  
-          <div class="col">
-            <mat-form-field>
-              <mat-label for="attention">To</mat-label>
-              <input
-                matInput
-                id="attention"
-                formControlName="attention"
-                [matAutocomplete]="attentionAuto"
-                required
-              />
-              <mat-error
-                *ngIf="
-                  getControl('attention')?.invalid &&
-                  (getControl('attention')?.dirty ||
-                    getControl('attention')?.touched)
-                "
-              >
-                <small
-                  class="text-danger"
-                  *ngIf="getControl('attention')?.errors?.['required']"
-                  >Attention is required.</small
-                >
-              </mat-error>
-              <mat-autocomplete #attentionAuto="matAutocomplete">
-                <mat-option
-                  *ngFor="let option of filteredAttentionUsers | async"
-                  [value]="option"
-                  >{{ option }}</mat-option
-                >
-              </mat-autocomplete>
-            </mat-form-field>
-          </div>
+      </div>
+
+      <div class="row">
+        <mat-form-field appearance="fill">
+          <mat-label>Subject</mat-label>
+          <textarea matInput id="subject" formControlName="subject"></textarea>
+          <mat-error *ngIf="getControl('subject')?.invalid">
+            <span *ngIf="getControl('subject')?.errors?.['required']"
+              >Subject is required.</span
+            >
+            <span *ngIf="getControl('subject')?.errors?.['maxlength']"
+              >Subject cannot exceed 100 characters.</span
+            >
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="type">
+              <mat-option value="1">Memo</mat-option>
+              <mat-option value="2">Letter</mat-option>
+              <mat-option value="3">Special Order</mat-option>
+              <mat-option value="4">President's Memo</mat-option>
+              <mat-option value="5">Other Memo</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
-  
-        <div formArrayName="cc" class="mb-3">
-          <div *ngFor="let control of ccArray.controls; let i = index">
-            <div class="align-items-center mb-3 row">
-              <div class="col-11">
-                <mat-form-field>
-                  <input
-                    matInput
-                    [formControlName]="i"
-                    placeholder="Enter email"
-                  />
-                </mat-form-field>
-              </div>
-              <div class="col-1">
-                <button
-                  class="btn btn-danger rounded-3 bg-danger text-white"
-                  mat-icon-button
-                  type="button"
-                  (click)="removeCc(i)"
-                >
-                  <mat-icon>remove</mat-icon>
-                </button>
-              </div>
+        <div class="col">
+          <mat-form-field>
+            <mat-label for="through">Through</mat-label>
+            <input
+              matInput
+              id="through"
+              formControlName="through"
+              [matAutocomplete]="throughAuto"
+            />
+            <mat-error
+              *ngIf="
+                getControl('through')?.invalid &&
+                (getControl('through')?.dirty || getControl('through')?.touched)
+              "
+            >
+              <small
+                class="text-danger"
+                *ngIf="getControl('through')?.errors?.['required']"
+                >Through is required.</small
+              >
+            </mat-error>
+            <mat-autocomplete #throughAuto="matAutocomplete">
+              <mat-option
+                *ngFor="let option of filteredThroughUsers | async"
+                [value]="option"
+                >{{ option }}</mat-option
+              >
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field>
+            <mat-label for="from">From</mat-label>
+            <input
+              matInput
+              id="from"
+              formControlName="from"
+              [matAutocomplete]="fromAuto"
+              required
+            />
+            <mat-error
+              *ngIf="
+                getControl('from')?.invalid &&
+                (getControl('from')?.dirty || getControl('from')?.touched)
+              "
+            >
+              <small
+                class="text-danger"
+                *ngIf="getControl('from')?.errors?.['required']"
+                >From is required.</small
+              >
+            </mat-error>
+            <mat-autocomplete #fromAuto="matAutocomplete">
+              <mat-option
+                *ngFor="let option of filteredFromUsers | async"
+                [value]="option"
+                >{{ option }}</mat-option
+              >
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+        <div class="col">
+          <mat-form-field>
+            <mat-label for="attention">To</mat-label>
+            <input
+              matInput
+              id="attention"
+              formControlName="attention"
+              [matAutocomplete]="attentionAuto"
+              required
+            />
+            <mat-error
+              *ngIf="
+                getControl('attention')?.invalid &&
+                (getControl('attention')?.dirty ||
+                  getControl('attention')?.touched)
+              "
+            >
+              <small
+                class="text-danger"
+                *ngIf="getControl('attention')?.errors?.['required']"
+                >Attention is required.</small
+              >
+            </mat-error>
+            <mat-autocomplete #attentionAuto="matAutocomplete">
+              <mat-option
+                *ngFor="let option of filteredAttentionUsers | async"
+                [value]="option"
+                >{{ option }}</mat-option
+              >
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div formArrayName="cc" class="mb-3">
+        <div *ngFor="let control of ccArray.controls; let i = index">
+          <div class="align-items-center mb-3 row">
+            <div class="col-11">
+              <mat-form-field>
+                <input
+                  matInput
+                  [formControlName]="i"
+                  placeholder="Enter email"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-1">
+              <button
+                class="btn btn-danger rounded-3 bg-danger text-white"
+                mat-icon-button
+                type="button"
+                (click)="removeCc(i)"
+              >
+                <mat-icon>remove</mat-icon>
+              </button>
             </div>
           </div>
         </div>
-  
-        <div class="row">
-          <div class="col-3">
-            <button
-              class="btn-primary rounded-3 bg-primary text-white p-4 w-100"
-              mat-button
-              type="button"
-              (click)="addCc()"
-            >
-              Add CC
-            </button>
-          </div>
-          <div class="col-9">
-            <input
-              class="inputTypeFile"
-              type="file"
-              multiple="true"
-              (change)="onFileChange($event)"
-            />
-          </div>
-        </div>
-  
-        <div class="row">
-          <mat-form-field>
-            <mat-label for="message">Message</mat-label>
-            <textarea
-              matInput
-              id="message"
-              formControlName="message"
-              rows="5"
-            ></textarea>
-            <mat-error
-              *ngIf="
-                getControl('message')?.invalid &&
-                (getControl('message')?.dirty || getControl('message')?.touched)
-              "
-            >
-              <span
-                *ngIf="getControl('message')?.errors?.['required']"
-                class="text-danger"
-                >Message is required.</span
-              >
-              <span
-                *ngIf="getControl('message')?.errors?.['minlength']"
-                class="text-danger"
-                >Message must be at least 10 characters long.</span
-              >
-            </mat-error>
-          </mat-form-field>
-        </div>
-  
-        <button type="submit" class="btn btn-primary">Send Email</button>
-      </form>
-      <div class="spinner-overlay" *ngIf="loading">
-        <mat-spinner mode="indeterminate" color="primary"></mat-spinner>
       </div>
+
+      <div class="row">
+        <div class="col-3">
+          <button
+            class="btn-primary rounded-3 bg-primary text-white p-4 w-100"
+            mat-button
+            type="button"
+            (click)="addCc()"
+          >
+            Add CC
+          </button>
+        </div>
+        <div class="col-9">
+          <input
+            class="inputTypeFile"
+            type="file"
+            multiple="true"
+            (change)="onFileChange($event)"
+          />
+        </div>
+      </div>
+
+      <div class="row">
+        <mat-form-field>
+          <mat-label for="message">Message</mat-label>
+          <textarea
+            matInput
+            id="message"
+            formControlName="message"
+            rows="5"
+          ></textarea>
+          <mat-error
+            *ngIf="
+              getControl('message')?.invalid &&
+              (getControl('message')?.dirty || getControl('message')?.touched)
+            "
+          >
+            <span
+              *ngIf="getControl('message')?.errors?.['required']"
+              class="text-danger"
+              >Message is required.</span
+            >
+            <span
+              *ngIf="getControl('message')?.errors?.['minlength']"
+              class="text-danger"
+              >Message must be at least 10 characters long.</span
+            >
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Send Email</button>
+    </form>
+    <div class="spinner-overlay" *ngIf="loading">
+      <mat-spinner mode="indeterminate" color="primary"></mat-spinner>
     </div>
   </div>
-  
+</div>

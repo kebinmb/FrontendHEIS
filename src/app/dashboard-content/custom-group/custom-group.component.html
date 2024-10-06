@@ -37,7 +37,7 @@
         placeholder="Enter or select email"
         required
       />
-      <mat-error *ngIf="email.invalid && email.touched">
+      <mat-error *ngIf="email.touched">
         Please enter a valid email.
       </mat-error>
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event, i)">

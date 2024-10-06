@@ -67,7 +67,7 @@ export class EmailMultipleService {
     );
   }
 
-  getAllCustomGroup():Observable<any[]>{
+  getAllCustomGroup(): Observable<string> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
         const token = response.accessToken; // Retrieve the access token
@@ -75,14 +75,16 @@ export class EmailMultipleService {
           'Authorization': `Bearer ${token}` // Set the Authorization header
         });
   
-        return this.http.get<any[]>(`${this.apiServerUrl}/customgroup/allGroup`, {
+        return this.http.get(`${this.apiServerUrl}/customgroup/allGroup`, {
           headers: headers,
-          withCredentials: true
-        });
+          withCredentials: true,
+          
+        }) as Observable<string>;
       }),
       catchError(this.handleError) // Handle errors
     );
   }
+  
   
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'An unknown error occurred!';

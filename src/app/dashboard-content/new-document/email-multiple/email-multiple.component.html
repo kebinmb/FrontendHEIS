@@ -149,6 +149,7 @@
           >
             Add Receiver
           </button>
+      
           <!-- Add Custom Receivers Button -->
           <button
             class="btn-primary rounded-3 bg-primary text-white mx-4 p-4 w-25"
@@ -160,7 +161,7 @@
               showSelectField ? "Hide Custom Receivers" : "Add Custom Receivers"
             }}
           </button>
-
+      
           <!-- Select field for custom receivers (conditionally displayed) -->
           <mat-form-field
             *ngIf="showSelectField"
@@ -180,13 +181,14 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-
+      
           <!-- Placeholder for no groups available -->
           <ng-template #noGroups>
             <span class="p-2">No custom groups available</span>
           </ng-template>
         </div>
       </div>
+      
 
       <div class="row">
         <div class="col">

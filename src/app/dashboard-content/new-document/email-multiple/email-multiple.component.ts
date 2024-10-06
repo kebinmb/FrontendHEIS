@@ -79,10 +79,23 @@ export class EmailMultipleComponent {
     this.showSelectField = !this.showSelectField;
   }
 
-  selectGroup(group: any) {
-    console.log("Selected group:", group);
-    // Perform any actions needed when a group is selected
+ // Add custom group emails to attention array
+ selectGroup(group: any) {
+  if (group && group.emailsJson) {
+    // Convert the emailsJson string into an array (assuming comma-separated)
+    const emailArray = group.emailsJson.split(',').map((email: string) => email.trim()); // Trim to remove any extra spaces
+
+    emailArray.forEach((email: string) => {
+      // Add each email in the custom group to the attention array
+      this.attentionArray.push(this.formBuilder.control(email));
+    });
+
+    console.log('Emails added:', emailArray);
+  } else {
+    console.error('Selected group does not contain valid emails:', group);
   }
+}
+
 
   private setupAutocompleteFilters(): void {
     this.filteredThroughUsers = this.getControl('through').valueChanges.pipe(
