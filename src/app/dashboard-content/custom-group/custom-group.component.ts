@@ -57,9 +57,9 @@ export class CustomGroupComponent {
       this.customGroupService.getAllUserDetails().subscribe({
         next: (response: any) => {
           this.userArray = response;
-          this.snackBar.open('User list retrieved', 'Close', {
-            duration: 3000,
-          });
+          // this.snackBar.open('User list retrieved', 'Close', {
+          //   duration: 3000,
+          // });
         },
         error: (error: any) => {
           this.snackBar.open('An error occurred while retrieving user list', 'Close', {
@@ -71,9 +71,9 @@ export class CustomGroupComponent {
       this.customGroupService.getAllCustomGroup().subscribe({
         next: (response: any) => {
           this.customGroupArray = response;
-          this.snackBar.open('Custom groups fetched successfully', 'Close', {
-            duration: 3000,
-          });
+          // this.snackBar.open('Custom groups fetched successfully', 'Close', {
+          //   duration: 3000,
+          // });
         },
         error: (error: any) => {
           this.snackBar.open('An error occurred while fetching the custom groups', 'Close', {

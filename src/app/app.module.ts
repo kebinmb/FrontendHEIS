@@ -81,6 +81,7 @@ import { CallbackComponent } from './callback/callback/callback.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { CustomGroupComponent } from './dashboard-content/custom-group/custom-group.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { NotificationsComponent } from './dashboard-content/notifications/notifications.component';
 
 @NgModule({
   declarations: [
@@ -111,7 +112,8 @@ import { MatMenuModule } from '@angular/material/menu';
     RecipientModalComponent,
     EditRecipientsModalComponent,
     CallbackComponent,
-    CustomGroupComponent
+    CustomGroupComponent,
+    NotificationsComponent
   ],
   imports: [
     BrowserModule,

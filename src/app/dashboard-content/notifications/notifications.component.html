@@ -1,0 +1,79 @@
+<div class="wrapper">
+    <div class="notification-container">
+        <h2>Create Notification</h2>
+        
+        <form (ngSubmit)="createNotification()" #notificationForm="ngForm">
+          <div class="form-group">
+            <label for="notificationId">Notification ID:</label>
+            <input 
+              type="number" 
+              id="notificationId" 
+              [(ngModel)]="newNotification.notificationId" 
+              name="notificationId" 
+              required 
+              class="form-control"
+            />
+          </div>
+      
+          <div class="form-group">
+            <label for="sender">Sender:</label>
+            <input 
+              type="text" 
+              id="sender" 
+              [(ngModel)]="newNotification.sender" 
+              name="sender" 
+              required 
+              class="form-control"
+            />
+          </div>
+      
+          <div class="form-group">
+            <label for="receiver">Receiver:</label>
+            <input 
+              type="text" 
+              id="receiver" 
+              [(ngModel)]="newNotification.receiver" 
+              name="receiver" 
+              required 
+              class="form-control"
+            />
+          </div>
+      
+          <div class="form-group">
+            <label for="documentId">Document ID:</label>
+            <input 
+              type="number" 
+              id="documentId" 
+              [(ngModel)]="newNotification.documentId" 
+              name="documentId" 
+              required 
+              class="form-control"
+            />
+          </div>
+      
+          <div class="form-group">
+            <label for="viewed">Viewed:</label>
+            <select 
+              id="viewed" 
+              [(ngModel)]="newNotification.viewed" 
+              name="viewed" 
+              required 
+              class="form-control"
+            >
+              <option [ngValue]="1">Yes</option>
+              <option [ngValue]="0">No</option>
+            </select>
+          </div>
+      
+          <button type="submit" class="btn btn-primary">Create Notification</button>
+        </form>
+        
+        <div *ngIf="successMessage" class="alert alert-success mt-3">
+          {{ successMessage }}
+        </div>
+        <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+          {{ errorMessage }}
+        </div>
+      </div>
+      
+</div>

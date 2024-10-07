@@ -12,6 +12,7 @@ import { EmailIndividualComponent } from './dashboard-content/new-document/email
 import { InstitutionComponent } from './dashboard-content/institution/institution.component';
 import { CallbackComponent } from './callback/callback/callback.component';
 import { CustomGroupComponent } from './dashboard-content/custom-group/custom-group.component';
+import { NotificationsComponent } from './dashboard-content/notifications/notifications.component';
 
 export const routes: Routes = [
   {
@@ -34,7 +35,8 @@ export const routes: Routes = [
       { path: 'eindvidual', component: EmailIndividualComponent},
       { path: 'emultiple', component: EmailMultipleComponent},
       { path: 'institutions', component: InstitutionComponent},
-      { path: 'customgroup', component:CustomGroupComponent}
+      { path: 'customgroup', component:CustomGroupComponent},
+      { path: 'notifications', component:NotificationsComponent}
     ]
   }
 ];
