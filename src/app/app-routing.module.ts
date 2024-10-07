@@ -36,7 +36,7 @@ export const routes: Routes = [
       { path: 'emultiple', component: EmailMultipleComponent},
       { path: 'institutions', component: InstitutionComponent},
       { path: 'customgroup', component:CustomGroupComponent},
-      { path: 'notifications', component:NotificationsComponent}
+      { path: 'notifications/:documentId', component: NotificationsComponent }
     ]
   }
 ];
