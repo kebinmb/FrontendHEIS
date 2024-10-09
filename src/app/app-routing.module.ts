@@ -13,6 +13,8 @@ import { InstitutionComponent } from './dashboard-content/institution/institutio
 import { CallbackComponent } from './callback/callback/callback.component';
 import { CustomGroupComponent } from './dashboard-content/custom-group/custom-group.component';
 import { NotificationsComponent } from './dashboard-content/notifications/notifications.component';
+import { authGuard } from './auth.guard';
+import { authViewGuard } from './auth-view.guard';
 
 export const routes: Routes = [
   {
@@ -26,8 +28,9 @@ export const routes: Routes = [
   {
     path:'dashboard',
     component:DashboardComponent,
+    canActivate: [authGuard],
     children:[
-      { path:'archives',component:ArchiveComponent},
+      { path:'archives',component:ArchiveComponent,},
       { path:'reports',component:ReportsComponent},
       { path: 'logs', component: LogsComponent,},
       { path: 'new-document', component: NewDocumentComponent },
@@ -36,9 +39,25 @@ export const routes: Routes = [
       { path: 'emultiple', component: EmailMultipleComponent},
       { path: 'institutions', component: InstitutionComponent},
       { path: 'customgroup', component:CustomGroupComponent},
-      { path: 'notifications/:documentId', component: NotificationsComponent }
+     
     ]
-  }
+  },
+  {
+    path: 'notifications/:documentId',
+    component: NotificationsComponent,
+    canActivate: [authViewGuard] // Independent guard for notifications
+  },
+  {
+    path: 'callback',
+    component: CallbackComponent
+  },
+  // Catch-all route to redirect any unknown paths to the login
+  {
+    path: '**',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+
 ];
 // export const routes: Routes = [
 //   { path: 'callback', component: CallbackComponent },

@@ -38,39 +38,39 @@ export class DashboardComponent {
       this.cdRef.detectChanges(); // Ensure the view updates
     }
   }
-  ngOnInit(){
-    this.dashboardService.getAdminDetails().subscribe({
-      next:((response:any)=>{
-        this.admin = response;
-        const encryptedUsername = CryptoJS.AES.encrypt(this.admin.username.toString(), this.secretKey).toString();
-        const encryptedAccessLevel = CryptoJS.AES.encrypt(this.admin.accessLevel.toString(), this.secretKey).toString();
-        const encryptedCampus = CryptoJS.AES.encrypt(this.admin.campus.toString(), this.secretKey).toString();
-        const encryptedName = CryptoJS.AES.encrypt(this.admin.name.toString(), this.secretKey).toString();
-        sessionStorage.setItem("username", encryptedUsername);
-        sessionStorage.setItem("access_level", encryptedAccessLevel);
-        sessionStorage.setItem("campus", encryptedCampus);
-        sessionStorage.setItem("name", encryptedName);
-        // this.snackBar.open("Login Successful", "Close", {
-        //   duration: 3000, // Duration in milliseconds
-        //   horizontalPosition: 'right',
-        //   verticalPosition: 'top'
-        // });
-      }),error:(error:any)=>{
-        this.snackBar.open("Login Failed", "Close", {
-          duration: 3000, // Duration in milliseconds
-          horizontalPosition: 'right',
-          verticalPosition: 'top'
-        });
-      }
-    })
-    this.tokenService.getToken().subscribe({
-      next: (response: any) => {
-        console.log(response);
-      },
-      error: (error: any) => {
-        console.error(error);
-      }
-    });
-  }
+  // ngOnInit(){
+  //   this.dashboardService.getAdminDetails().subscribe({
+  //     next:((response:any)=>{
+  //       this.admin = response;
+  //       const encryptedUsername = CryptoJS.AES.encrypt(this.admin.username.toString(), this.secretKey).toString();
+  //       const encryptedAccessLevel = CryptoJS.AES.encrypt(this.admin.accessLevel.toString(), this.secretKey).toString();
+  //       const encryptedCampus = CryptoJS.AES.encrypt(this.admin.campus.toString(), this.secretKey).toString();
+  //       const encryptedName = CryptoJS.AES.encrypt(this.admin.name.toString(), this.secretKey).toString();
+  //       sessionStorage.setItem("username", encryptedUsername);
+  //       sessionStorage.setItem("access_level", encryptedAccessLevel);
+  //       sessionStorage.setItem("campus", encryptedCampus);
+  //       sessionStorage.setItem("name", encryptedName);
+  //       // this.snackBar.open("Login Successful", "Close", {
+  //       //   duration: 3000, // Duration in milliseconds
+  //       //   horizontalPosition: 'right',
+  //       //   verticalPosition: 'top'
+  //       // });
+  //     }),error:(error:any)=>{
+  //       this.snackBar.open("Login Failed", "Close", {
+  //         duration: 3000, // Duration in milliseconds
+  //         horizontalPosition: 'right',
+  //         verticalPosition: 'top'
+  //       });
+  //     }
+  //   })
+  //   this.tokenService.getToken().subscribe({
+  //     next: (response: any) => {
+  //       console.log(response);
+  //     },
+  //     error: (error: any) => {
+  //       console.error(error);
+  //     }
+  //   });
+  // }
   
 }

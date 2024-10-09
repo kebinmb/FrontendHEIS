@@ -82,7 +82,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { CustomGroupComponent } from './dashboard-content/custom-group/custom-group.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { NotificationsComponent } from './dashboard-content/notifications/notifications.component';
-
+import { ErrorComponent } from './error/error.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -113,7 +113,9 @@ import { NotificationsComponent } from './dashboard-content/notifications/notifi
     EditRecipientsModalComponent,
     CallbackComponent,
     CustomGroupComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    ErrorComponent,
+   
   ],
   imports: [
     BrowserModule,
