@@ -25,6 +25,7 @@ export class AuthService {
 
   handleAuthCallback(code: string) {
     // Exchange the authorization code for tokens
+    console.log(code);
     this.http.post(this.tokenUrl, {
       client_id: this.clientId,
       redirect_uri: this.redirectUri,

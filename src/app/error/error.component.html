@@ -1,5 +1,10 @@
-<div class="error-container" *ngIf="errorMessage">
-    <h1>Oops! Something went wrong.</h1>
-    <p>{{ errorMessage }}</p>
-  </div>
-  
+<div class="error-container">
+  <h1>Error</h1>
+  <p *ngIf="errorMessage; else defaultMessage">
+    {{ errorMessage }}
+  </p>
+  <ng-template #defaultMessage>
+    <p>Something went wrong! Please try again.</p>
+  </ng-template>
+  <a routerLink="/">Go Back to Home</a>
+</div>

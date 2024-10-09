@@ -15,31 +15,31 @@ import { CustomGroupComponent } from './dashboard-content/custom-group/custom-gr
 import { NotificationsComponent } from './dashboard-content/notifications/notifications.component';
 import { authGuard } from './auth.guard';
 import { authViewGuard } from './auth-view.guard';
+import { ErrorComponent } from './error/error.component';
 
 export const routes: Routes = [
   {
-    path:'',
-    component:LoginComponent
+    path: '',
+    component: LoginComponent
   },
   {
-    path:'login',
-    component:LoginComponent
+    path: 'login',
+    component: LoginComponent
   },
   {
-    path:'dashboard',
-    component:DashboardComponent,
+    path: 'dashboard',
+    component: DashboardComponent,
     canActivate: [authGuard],
-    children:[
-      { path:'archives',component:ArchiveComponent,},
-      { path:'reports',component:ReportsComponent},
-      { path: 'logs', component: LogsComponent,},
+    children: [
+      { path: 'archives', component: ArchiveComponent },
+      { path: 'reports', component: ReportsComponent },
+      { path: 'logs', component: LogsComponent },
       { path: 'new-document', component: NewDocumentComponent },
-      { path: 'egroup', component: EmailGroupComponent},
-      { path: 'eindvidual', component: EmailIndividualComponent},
-      { path: 'emultiple', component: EmailMultipleComponent},
-      { path: 'institutions', component: InstitutionComponent},
-      { path: 'customgroup', component:CustomGroupComponent},
-     
+      { path: 'egroup', component: EmailGroupComponent },
+      { path: 'individual', component: EmailIndividualComponent },
+      { path: 'emultiple', component: EmailMultipleComponent },
+      { path: 'institutions', component: InstitutionComponent },
+      { path: 'customgroup', component: CustomGroupComponent },
     ]
   },
   {
@@ -51,21 +51,17 @@ export const routes: Routes = [
     path: 'callback',
     component: CallbackComponent
   },
-  // Catch-all route to redirect any unknown paths to the login
+  {
+    path: 'error',
+    component: ErrorComponent
+  },
+  // Catch-all route to handle any unknown paths
   {
     path: '**',
-    redirectTo: 'login',
+    redirectTo: 'error', // Redirect unknown paths to ErrorComponent
     pathMatch: 'full'
   },
-
 ];
-// export const routes: Routes = [
-//   { path: 'callback', component: CallbackComponent },
-//   { path: 'login', redirectTo: 'callback', pathMatch: 'full' }, // Redirect to login
-//   { path: '', component: LoginComponent }, // Your main component
-//   { path:'archives',component:ArchiveComponent}
-//   // Other routes...
-// ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

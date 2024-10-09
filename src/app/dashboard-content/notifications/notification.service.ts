@@ -84,6 +84,26 @@ export class NotificationService {
     return throwError('Failed to fetch document details; please try again later.');
   }
 
+  generateUrls(filenames: string[]): string[] {
+    return filenames.map(filename => `${this.apiBaseUrl}/archives/${filename}`);
+  }
+
+  parseFilenames(filenames: string | string[]): string[] {
+    if (typeof filenames === 'string') {
+      try {
+        const parsed = JSON.parse(filenames);
+        if (Array.isArray(parsed)) {
+          return parsed;
+        }
+      } catch (error) {
+        return filenames.split(',').map(item => item.trim());
+      }
+    } else if (Array.isArray(filenames)) {
+      return filenames;
+    }
+    return [];
+  }
+
   
   
   
