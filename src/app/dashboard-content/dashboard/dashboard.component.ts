@@ -10,6 +10,7 @@ import { InstitutionComponent } from '../institution/institution.component';
 import { LogsComponent } from '../logs/logs.component';
 import { TokenService } from 'src/app/token.service';
 import { CustomGroupComponent } from '../custom-group/custom-group.component';
+import { NotificationInformationComponent } from '../notification-information/notification-information.component';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -27,7 +28,8 @@ export class DashboardComponent {
       [InstitutionComponent.name]: 'Institution',
       [ReportsComponent.name]:'Reports',
       [LogsComponent.name]:'System Logs',
-      [CustomGroupComponent.name]:'Custom Group'
+      [CustomGroupComponent.name]:'Custom Group',
+      [NotificationInformationComponent.name]:'Notifications'
       // [CredentialsComponent.name]:'Credentials',
       // [LoginComponent.name]:'Login'
     };

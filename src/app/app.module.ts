@@ -83,6 +83,8 @@ import { CustomGroupComponent } from './dashboard-content/custom-group/custom-gr
 import { MatMenuModule } from '@angular/material/menu';
 import { NotificationsComponent } from './dashboard-content/notifications/notifications.component';
 import { ErrorComponent } from './error/error.component';
+import { NotificationInformationComponent } from './dashboard-content/notification-information/notification-information.component';
+import { DatePipe } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -115,6 +117,8 @@ import { ErrorComponent } from './error/error.component';
     CustomGroupComponent,
     NotificationsComponent,
     ErrorComponent,
+    NotificationInformationComponent,
+    
    
   ],
   imports: [
@@ -164,9 +168,9 @@ import { ErrorComponent } from './error/error.component';
     MatSnackBarModule,
     MatProgressBarModule,
     MatOptionModule,
-    MatMenuModule
+    MatMenuModule,
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

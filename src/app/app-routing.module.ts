@@ -16,6 +16,7 @@ import { NotificationsComponent } from './dashboard-content/notifications/notifi
 import { authGuard } from './auth.guard';
 import { authViewGuard } from './auth-view.guard';
 import { ErrorComponent } from './error/error.component';
+import { NotificationInformationComponent } from './dashboard-content/notification-information/notification-information.component';
 
 export const routes: Routes = [
   {
@@ -40,6 +41,7 @@ export const routes: Routes = [
       { path: 'emultiple', component: EmailMultipleComponent },
       { path: 'institutions', component: InstitutionComponent },
       { path: 'customgroup', component: CustomGroupComponent },
+      { path: 'notificationInformation',component:NotificationInformationComponent}
     ]
   },
   {

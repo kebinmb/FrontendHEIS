@@ -67,7 +67,7 @@ export class NotificationService {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}` // Add the token in the Authorization header
         });
-
+        console.log(documentId);
         // Sending the request to the backend with documentId as a query parameter
         const options = { headers: headers, withCredentials: true };
         const url = `${this.apiBaseUrl}/archives/documentDetails?documentId=${documentId}`;
