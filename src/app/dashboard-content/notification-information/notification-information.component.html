@@ -1,76 +1,50 @@
 <div class="wrapper">
-  <div class="container">
-    <!-- <h2 mat-typography>Notification List</h2> -->
-    <div class="table-container">
-      <table
-        mat-table
-        [dataSource]="filteredNotifications"
-        class="mat-table"
-        matSort
-      >
-        <!-- Document ID Column -->
-        <ng-container matColumnDef="documentId">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Document ID</th>
-          <td mat-cell *matCellDef="let notification">
-            {{ notification.documentId }}
-          </td>
-        </ng-container>
-
-        <!-- Notification ID Column -->
-        <ng-container matColumnDef="notificationId">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Notification ID
-          </th>
-          <td mat-cell *matCellDef="let notification">
-            {{ notification.notificationId }}
-          </td>
-        </ng-container>
-
-        <!-- Sender Column -->
-        <ng-container matColumnDef="sender">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Sender</th>
-          <td mat-cell *matCellDef="let notification">
-            {{ notification.sender }}
-          </td>
-        </ng-container>
-
-        <!-- Receiver Column -->
-        <ng-container matColumnDef="receiver">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Receiver</th>
-          <td mat-cell *matCellDef="let notification">
-            {{ notification.receiver }}
-          </td>
-        </ng-container>
-
-        <!-- Add ang not viewed column-->
-        <!-- Viewed Column -->
-        <ng-container matColumnDef="viewed">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Viewed</th>
-          <td mat-cell *matCellDef="let notification">
-            {{ notification.viewed ? "Yes" : "No" }}
-          </td>
-        </ng-container>
-
-        <!-- Timestamp Column -->
-        <ng-container matColumnDef="timestamp">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Timestamp</th>
-          <td mat-cell *matCellDef="let notification">
-            {{ notification.timestamp | date : "medium" }}
-          </td>
-        </ng-container>
-
-        <!-- Header and Row Definitions -->
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      </table>
-
-      <!-- Pagination -->
-      <mat-paginator
-          #paginatorNotification
-          [pageSizeOptions]="[10, 20, 30, 40, 50]"
-          showFirstLastButtons
-          class="paginator"
-        ></mat-paginator>
-    </div>
-  </div>
+  <mat-table [dataSource]="documentListWithName" class="mat-elevation-z8">
+    <ng-container matColumnDef="documentNumber">
+      <mat-header-cell *matHeaderCellDef> Document Number </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <a (click)="openModal(element)" class="document-link">
+          {{ element.documentNumber }}
+        </a>
+      </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="receivers">
+      <mat-header-cell *matHeaderCellDef> Receivers </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.receiver }} </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="sender">
+      <mat-header-cell *matHeaderCellDef> Sender </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.sender }} </mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="timestamp">
+      <mat-header-cell *matHeaderCellDef> Timestamp </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.timestamp | date:'short' }} </mat-cell>
+    </ng-container>
+  
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+  
+  <ng-template #receiverModal let-data="data">
+    <h2>Receivers for {{ data.documentNumber }}</h2>
+    <table mat-table [dataSource]="data.receivers" class="mat-elevation-z8">
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+        <mat-cell *matCellDef="let receiver"> {{ receiver.name }} </mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="viewed">
+        <mat-header-cell *matHeaderCellDef> Viewed? </mat-header-cell>
+        <mat-cell *matCellDef="let receiver">
+          {{ receiver.viewed ? 'Yes' : 'No' }}
+        </mat-cell>
+      </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="['name', 'viewed']"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: ['name', 'viewed']"></mat-row>
+    </table>
+  </ng-template>
 </div>

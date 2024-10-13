@@ -97,7 +97,7 @@ export class NotificationsComponent implements OnInit {
             this.documentImage = this.notificationService.generateUrls(filenames);
             
             // Populate newNotification after fetching document details
-            this.newNotification.documentId = response.documentId;
+            this.newNotification.documentId = response.documentNumber;
             this.newNotification.sender = response.from;
             
             // Fetch logged-in user details to set the receiver

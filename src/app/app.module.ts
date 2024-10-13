@@ -85,6 +85,7 @@ import { NotificationsComponent } from './dashboard-content/notifications/notifi
 import { ErrorComponent } from './error/error.component';
 import { NotificationInformationComponent } from './dashboard-content/notification-information/notification-information.component';
 import { DatePipe } from '@angular/common';
+import { ReceiverModalComponent } from './dashboard-content/notification-information/receiver-modal/receiver-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -118,6 +119,7 @@ import { DatePipe } from '@angular/common';
     NotificationsComponent,
     ErrorComponent,
     NotificationInformationComponent,
+    ReceiverModalComponent,
     
    
   ],

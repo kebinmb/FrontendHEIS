@@ -1,0 +1,45 @@
+/* notification-information.component.css */
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #3f51b5; /* Angular Material primary color */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.header-cell {
+  background-color: #3f51b5; /* Primary color for headers */
+  color: white;
+  font-weight: bold;
+}
+
+.cell {
+  padding: 16px; /* Add some padding for better spacing */
+  text-align: left;
+}
+
+.receiver-status {
+  display: flex; /* Align items in a row */
+  justify-content: space-between; /* Space out the name and status */
+  padding: 4px 0; /* Add padding between receiver entries */
+}
+
+.status {
+  font-weight: bold; /* Make the viewed status bold */
+  color: #4caf50; /* Green for 'Yes' */
+}
+
+.status:contains('No') {
+  color: #f44336; /* Red for 'No' */
+}
+
+.no-receivers {
+  text-align: center;
+  font-style: italic;
+  color: #757575; /* Grey color for the no receivers message */
+}
