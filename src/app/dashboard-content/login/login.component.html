@@ -1,37 +1,25 @@
 <mat-card class="login-card">
-    <mat-card-header>
-      <mat-card-title class="text-center">Login</mat-card-title>
-    </mat-card-header>
-  
-    <mat-card-content>
-      <form (ngSubmit)="onLogin()" #loginForm="ngForm">
-        
-        <!-- Username Field -->
-        <mat-form-field appearance="fill" class="form-field">
-          <mat-label>Username</mat-label>
-          <input matInput [(ngModel)]="username" name="username" required />
-          <mat-error *ngIf="loginForm.submitted && !username">Username is required</mat-error>
-        </mat-form-field>
-  
-        <!-- Password Field -->
-        <mat-form-field appearance="fill" class="form-field">
-          <mat-label>Password</mat-label>
-          <input matInput type="password" [(ngModel)]="password" name="password" required />
-          <mat-error *ngIf="loginForm.submitted && !password">Password is required</mat-error>
-        </mat-form-field>
-  
-        <!-- Submit Button -->
-        <div class="button-container">
-          <button mat-raised-button color="primary" type="submit" class="submit-button">Login</button>
-        </div>
-        
-        <!-- Additional Links -->
-        <div class="additional-links">
-          <button mat-raised-button color="primary" class="google-btn" (click)="login()">
-            <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google Logo" class="google-logo"/>
-            Sign in with Google
-          </button>
-        </div>
-      </form>
-    </mat-card-content>
-  </mat-card>
+  <mat-card-header>
+    <img src="../assets/CHMSULogo.jpg" alt="CHMSU Logo" />
+    <h1>CARLOS HILADO<br /><span>MEMORIAL STATE UNIVERSITY</span></h1>
+    <h2>Records Management System</h2>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+      <!-- Additional Links -->
+      <div class="additional-links">
+        <h1>Sign-In</h1>
+        <p>Use your CHMSU Google Account</p>
+        <button mat-raised-button class="google-btn" (click)="login()">
+          <img
+            src="https://developers.google.com/identity/images/g-logo.png"
+            alt="Google Logo"
+            class="google-logo"
+          />
+          Sign in with Google
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
