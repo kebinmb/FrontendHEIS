@@ -1,25 +1,41 @@
-/* notification-information.component.css */
+:root {
+  --mat-primary: #08783f; /* Primary color */
+  --mat-accent: orange; /* Secondary color */
+  --mat-warn: red; /* Error color */
+  --mat-background: white; /* Background color (optional) */
+  --mat-text: gray; /* Text color for every component */
+  --bg-color: #f5f5f5;
+  --fg-color: #ffffff;
+  /* --bg-color: #f0f0f0; */
+  --rounded-corners: 8px;
+  --topleft-rounded-corner: var(--rounded-corners) 0 0 0;
+  --topright-rounded-corner: 0 var(--rounded-corners) 0 0;
+  --bottomleft-rounded-corner: 0 0 0 var(--rounded-corners);
+  --bottomright-rounded-corner: 0 0 var(--rounded-corners) 0;
+  --top-rounded-corner: var(--rounded-corners) var(--rounded-corners) 0 0;
+  --bottom-rounded-corner: 0 0 var(--rounded-corners) var(--rounded-corners);
+}
 
 .title {
   text-align: center;
-  margin-bottom: 20px;
+  margin: 20px 0;
   font-size: 24px;
-  color: #3f51b5; /* Angular Material primary color */
+  color: var(--mat-primary); /* Angular Material primary color */
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
+  margin-bottom: 0;
 }
 
 .header-cell {
-  background-color: #3f51b5; /* Primary color for headers */
+  background-color: var(--mat-primary); /* Primary color for headers */
   color: white;
   font-weight: bold;
 }
 
 .cell {
-  padding: 16px; /* Add some padding for better spacing */
   text-align: left;
 }
 
@@ -34,7 +50,7 @@
   color: #4caf50; /* Green for 'Yes' */
 }
 
-.status:contains('No') {
+.status:contains("No") {
   color: #f44336; /* Red for 'No' */
 }
 

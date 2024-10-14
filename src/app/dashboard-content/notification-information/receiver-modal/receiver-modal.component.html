@@ -1,30 +1,49 @@
-<h2 class="title">Receivers for {{ data.documentNumber }}</h2>
+<div class="receiver-modal-contents">
+  <h2 class="title">Receivers for {{ data.documentNumber }}</h2>
 
-<table mat-table [dataSource]="data.receivers" class="mat-elevation-z8 table">
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef class="header-cell"> Name </mat-header-cell>
-    <mat-cell *matCellDef="let receiver" class="cell"> 
-      {{ receiver.name }} 
-    </mat-cell> 
-  </ng-container>
-
-  <ng-container matColumnDef="viewed">
-    <mat-header-cell *matHeaderCellDef class="header-cell"> Viewed? </mat-header-cell>
-    <mat-cell *matCellDef="let receiver" class="cell">
-      <ng-container *ngIf="data.alignedReceivers && data.alignedReceivers.length > 0">
-        <ng-container *ngFor="let alignedReceiver of data.alignedReceivers">
-          <!-- Check if the receiver name matches the aligned receiver name -->
-          <div *ngIf="receiver.name === alignedReceiver.name" class="receiver-status"> 
-            <span class="status">{{ alignedReceiver.viewed === 1 ? 'Yes' : 'No' }}</span>
-          </div>
-        </ng-container>
+  <div class="receiver-modal-table">
+    <table
+      mat-table
+      [dataSource]="data.receivers"
+      class="mat-elevation-z8 table"
+    >
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef class="header-cell">
+          Name
+        </mat-header-cell>
+        <mat-cell *matCellDef="let receiver" class="cell">
+          {{ receiver.name }}
+        </mat-cell>
       </ng-container>
-      <ng-container *ngIf="!data.alignedReceivers || data.alignedReceivers.length === 0">
-        <div class="no-receivers">No receivers available.</div>
+      <ng-container matColumnDef="viewed">
+        <mat-header-cell *matHeaderCellDef class="header-cell">
+          Viewed?
+        </mat-header-cell>
+        <mat-cell *matCellDef="let receiver" class="cell">
+          <ng-container
+            *ngIf="data.alignedReceivers && data.alignedReceivers.length > 0"
+          >
+            <ng-container *ngFor="let alignedReceiver of data.alignedReceivers">
+              <!-- Check if the receiver name matches the aligned receiver name -->
+              <div
+                *ngIf="receiver.name === alignedReceiver.name"
+                class="receiver-status"
+              >
+                <span class="status">{{
+                  alignedReceiver.viewed === 1 ? "Yes" : "No"
+                }}</span>
+              </div>
+            </ng-container>
+          </ng-container>
+          <ng-container
+            *ngIf="!data.alignedReceivers || data.alignedReceivers.length === 0"
+          >
+            <div class="no-receivers">No receivers available.</div>
+          </ng-container>
+        </mat-cell>
       </ng-container>
-    </mat-cell>
-  </ng-container>
-
-  <mat-header-row *matHeaderRowDef="['name', 'viewed']"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: ['name', 'viewed']"></mat-row>
-</table>
+      <mat-header-row *matHeaderRowDef="['name', 'viewed']"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: ['name', 'viewed']"></mat-row>
+    </table>
+  </div>
+</div>
