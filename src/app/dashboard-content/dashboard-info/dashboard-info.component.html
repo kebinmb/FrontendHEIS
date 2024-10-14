@@ -1,0 +1,43 @@
+<div class="wrapper">
+  <div class="container">
+    <mat-card>
+      <mat-card-header>
+        
+      </mat-card-header>
+      <div class="container">
+        <!-- Row of Mat-Cards -->
+        <div class="row-cards">
+          <mat-card class="small-card" *ngFor="let card of rowCards">
+            <mat-card-header>
+              <mat-card-title>{{ card.title }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p>{{ card.content }}</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <!-- Two Big Cards Below -->
+        <div class="big-cards">
+          <mat-card class="big-card">
+            <mat-card-header>
+              <mat-card-title>Big Card 1</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p>This is the first big card content.</p>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="big-card">
+            <mat-card-header>
+              <mat-card-title>Big Card 2</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p>This is the second big card content.</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

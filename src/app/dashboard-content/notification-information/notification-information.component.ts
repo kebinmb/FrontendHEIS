@@ -20,50 +20,57 @@ export class NotificationInformationComponent implements OnInit {
   userList:any[]=[];
   documentListWithName:any[]=[];
   displayedColumns: string[] = ['documentNumber', 'receivers', 'sender', 'timestamp'];
-  
+  dataSourceNotifications = new MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginatorNotifications!: MatPaginator;
+  @ViewChild(MatSort) sortNotifications!: MatSort;
   constructor(private receiverModal:ReceiverModalServiceService,private notificationInformationService: NotificationInformationServiceService, private archiveService: ArchiveService, private snackBar:MatSnackBar, private dialog:MatDialog) {
     
     
   }
 
   ngOnInit(): void {
+    this.loadDocumentsAndUsers();
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSourceNotifications.paginator = this.paginatorNotifications;
+    this.dataSourceNotifications.sort = this.sortNotifications;
+  }
+
+  private loadDocumentsAndUsers(): void {
     this.notificationInformationService.getMonthlyReports('10', '2024').subscribe({
       next: (documents: any) => {
-        console.log(documents)
         this.listOfDocuments = documents;
-
         this.archiveService.getUserList().subscribe({
           next: (users: any) => {
             this.userList = users;
             this.documentListWithName = this.mapDocumentsWithNames(this.listOfDocuments, this.userList);
-
-            // Fetch notifications and align viewed status with receivers
-            this.receiverModal.getNotifications().subscribe({
-              next: (notifications: any[]) => {
-                this.documentListWithName = this.documentListWithName.map((doc: any) => {
-                  
-                  const receivers = this.mapReceiversWithViewedStatus(doc.attention, doc.documentNumber, notifications);
-                  return { ...doc, alignedReceivers: receivers };
-                });
-
-                console.log('Updated Documents with Aligned Receivers:', this.documentListWithName);
-              },
-              error: (error: any) => {
-                this.snackBar.open('Failed to load notifications', 'Close', { duration: 3000 });
-              },
-            });
+            this.loadNotifications();
           },
-          error: (error: any) => {
-            this.snackBar.open('Failed to load user list', 'Close', { duration: 3000 });
-          },
+          error: () => this.showSnackBar('Failed to load user list')
         });
       },
-      error: (error: any) => {
-        this.snackBar.open('Failed to load documents', 'Close', { duration: 3000 });
-      },
+      error: () => this.showSnackBar('Failed to load documents')
     });
   }
 
+  private loadNotifications(): void {
+    this.receiverModal.getNotifications().subscribe({
+      next: (notifications: any[]) => {
+        this.documentListWithName = this.documentListWithName.map((doc: any) => ({
+          ...doc,
+          alignedReceivers: this.mapReceiversWithViewedStatus(doc.attention, doc.documentNumber, notifications)
+        }));
+        this.dataSourceNotifications.data = this.documentListWithName;
+        console.log('Updated Documents with Aligned Receivers:', this.documentListWithName);
+      },
+      error: () => this.showSnackBar('Failed to load notifications')
+    });
+  }
+
+  private showSnackBar(message: string): void {
+    this.snackBar.open(message, 'Close', { duration: 3000 });
+  }
   mapDocumentsWithNames(documents: any[], users: any[]): any[] {
     return documents
       .map((doc: any) => {
@@ -110,9 +117,6 @@ export class NotificationInformationComponent implements OnInit {
           notification.documentId === documentNumber && // Correctly use logical AND (&&)
           notification.receiver.toString() === receiverId // Ensure we are checking against the correct property
       );
-  
-      console.log(matchedNotification);
-      
       return {
         name: user ? user.name : `Unknown (${receiverId})`,
         viewed: matchedNotification ? matchedNotification.viewed : 'No', // 'No' should be replaced with the correct boolean condition
