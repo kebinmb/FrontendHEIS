@@ -21,11 +21,11 @@ import { NotificationInformationComponent } from './dashboard-content/notificati
 export const routes: Routes = [
   {
     path: '',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'dashboard',
@@ -41,32 +41,35 @@ export const routes: Routes = [
       { path: 'emultiple', component: EmailMultipleComponent },
       { path: 'institutions', component: InstitutionComponent },
       { path: 'customgroup', component: CustomGroupComponent },
-      { path: 'notificationInformation',component:NotificationInformationComponent}
-    ]
+      {
+        path: 'notificationInformation',
+        component: NotificationInformationComponent,
+      },
+    ],
   },
   {
     path: 'notifications/:documentId',
     component: NotificationsComponent,
-    canActivate: [authViewGuard] // Independent guard for notifications
+    canActivate: [authViewGuard], // Independent guard for notifications
   },
   {
     path: 'callback',
-    component: CallbackComponent
+    component: CallbackComponent,
   },
   {
     path: 'error',
-    component: ErrorComponent
+    component: ErrorComponent,
   },
   // Catch-all route to handle any unknown paths
   {
     path: '**',
     redirectTo: 'error', // Redirect unknown paths to ErrorComponent
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
