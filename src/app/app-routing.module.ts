@@ -23,11 +23,11 @@ import { LogoutComponent } from './logout/logout.component';
 export const routes: Routes = [
   {
     path: '',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'dashboard',
@@ -50,7 +50,7 @@ export const routes: Routes = [
   {
     path: 'notifications/:documentId',
     component: NotificationsComponent,
-    canActivate: [authViewGuard] // Independent guard for notifications
+    canActivate: [authViewGuard], // Independent guard for notifications
   },
   {
     path: 'logout',
@@ -58,22 +58,22 @@ export const routes: Routes = [
   },
   {
     path: 'callback',
-    component: CallbackComponent
+    component: CallbackComponent,
   },
   {
     path: 'error',
-    component: ErrorComponent
+    component: ErrorComponent,
   },
   // Catch-all route to handle any unknown paths
   {
     path: '**',
     redirectTo: 'error', // Redirect unknown paths to ErrorComponent
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
