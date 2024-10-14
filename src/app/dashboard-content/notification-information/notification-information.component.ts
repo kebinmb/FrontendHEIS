@@ -1,9 +1,14 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, TemplateRef } from '@angular/core';
 import { NotificationInformationServiceService } from './notification-information-service.service';
 import { ArchiveService } from '../archive/archive.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { map } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { ReceiverModalComponent } from './receiver-modal/receiver-modal.component';
+import { ReceiverModalServiceService } from './receiver-modal/receiver-modal-service.service';
 
 @Component({
   selector: 'app-notification-information',
@@ -11,7 +16,7 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./notification-information.component.css'],
 })
 export class NotificationInformationComponent implements OnInit {
-<<<<<<< Updated upstream
+
   @ViewChild(MatPaginator, { static: true }) paginatorNotification: MatPaginator;
   @ViewChild(MatSort) sortNotifications: MatSort;
 
@@ -22,48 +27,83 @@ export class NotificationInformationComponent implements OnInit {
   displayedColumns: string[] = ['documentId', 'notificationId', 'sender', 'receiver', 'viewed', 'timestamp'];
   userList: any[] = []; // Ensure userList is an array
 
-  constructor(private notificationInformationService: NotificationInformationServiceService, private archiveService: ArchiveService) {
-    const currentDate = new Date();
-    this.currentMonth = ('0' + (currentDate.getMonth() + 1)).slice(-2); // Convert to 'MM' format
-    this.currentYear = currentDate.getFullYear().toString(); // Convert year to 'YYYY' format
+  listOfDocuments:any[]=[];
+  userList:any[]=[];
+  documentListWithName:any[]=[];
+  displayedColumns: string[] = ['documentNumber', 'receivers', 'sender', 'timestamp'];
+  dataSourceNotifications = new MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginatorNotifications!: MatPaginator;
+  @ViewChild(MatSort) sortNotifications!: MatSort;
+  constructor(private receiverModal:ReceiverModalServiceService,private notificationInformationService: NotificationInformationServiceService, private archiveService: ArchiveService, private snackBar:MatSnackBar, private dialog:MatDialog) {
+    
+    
   }
 
-  ngOnInit() {
-    // Fetch the user list first
-    this.archiveService.getUserList().subscribe({
-      next: (userResponse: any) => {
-        this.userList = userResponse; // Store the user list
-        console.log(this.currentMonth);
-        console.log(this.currentYear);
+  ngOnInit(): void {
+    this.loadDocumentsAndUsers();
+  }
 
-        // After fetching the user list, fetch the notifications
-        this.notificationInformationService.getNotifications().subscribe({
-          next: (notificationResponse: any) => {
-            this.notifications = notificationResponse;
-            this.filterNotificationsByMonth(this.currentMonth, this.currentYear);
+  ngAfterViewInit(): void {
+    this.dataSourceNotifications.paginator = this.paginatorNotifications;
+    this.dataSourceNotifications.sort = this.sortNotifications;
+  }
+
+  private loadDocumentsAndUsers(): void {
+    this.notificationInformationService.getMonthlyReports('10', '2024').subscribe({
+      next: (documents: any) => {
+        this.listOfDocuments = documents;
+        this.archiveService.getUserList().subscribe({
+          next: (users: any) => {
+            this.userList = users;
+            this.documentListWithName = this.mapDocumentsWithNames(this.listOfDocuments, this.userList);
+            this.loadNotifications();
           },
-          error: (error: any) => {
-            console.error("An error occurred while fetching notifications", error);
-          }
+          error: () => this.showSnackBar('Failed to load user list')
         });
       },
-      error: (error: any) => {
-        console.error("An error occurred while fetching the user list", error);
-      }
+      error: () => this.showSnackBar('Failed to load documents')
     });
   }
 
-  // Method to filter notifications based on the current month and year
-  filterNotificationsByMonth(month: string, year: string) {
-    // Filter notifications by month and year
-    const filtered = this.notifications.filter((notification: any) => {
-      const notificationDate = new Date(notification.timestamp);
-      const notificationMonth = ('0' + (notificationDate.getMonth() + 1)).slice(-2); // 'MM'
-      const notificationYear = notificationDate.getFullYear().toString(); // 'YYYY'
+  private loadNotifications(): void {
+    this.receiverModal.getNotifications().subscribe({
+      next: (notifications: any[]) => {
+        this.documentListWithName = this.documentListWithName.map((doc: any) => ({
+          ...doc,
+          alignedReceivers: this.mapReceiversWithViewedStatus(doc.attention, doc.documentNumber, notifications)
+        }));
+        this.dataSourceNotifications.data = this.documentListWithName;
+        console.log('Updated Documents with Aligned Receivers:', this.documentListWithName);
+      },
+      error: () => this.showSnackBar('Failed to load notifications')
+    });
+  }
+
+  private showSnackBar(message: string): void {
+    this.snackBar.open(message, 'Close', { duration: 3000 });
+  }
+  mapDocumentsWithNames(documents: any[], users: any[]): any[] {
+    return documents
+      .map((doc: any) => {
+        const receiverNames = this.getNamesFromIds(doc.attention);
+        const senderName = this.getSingleNameFromId(doc.from);
+
+        return {
+          ...doc,
+          receiver: receiverNames.map((r) => r.name).join(', '),
+          sender: senderName,
+          receivers: receiverNames, // Store this for use in the modal
+        };
+      })
+      // Sort documents in descending order based on documentNumber
+      .sort((a, b) => b.documentNumber - a.documentNumber); // Assuming documentNumber is a numeric value
+}
+
+
 
       // Check if the notification's month and year match the current month and year
       return notificationMonth === month && notificationYear === year;
-=======
+
   listOfDocuments: any[] = [];
   userList: any[] = [];
   documentListWithName: any[] = [];
@@ -165,21 +205,34 @@ export class NotificationInformationComponent implements OnInit {
         (user: any) => user.userId.toString() === id
       );
       return { name: user ? user.name : `Unknown ` };
->>>>>>> Stashed changes
-    });
 
-<<<<<<< Updated upstream
+  getNamesFromIds(ids: string): any[] {
+    const idArray = ids.split(',').map((id) => id.trim());
+    return idArray.map((id) => {
+      const user = this.userList.find((user: any) => user.userId.toString() === id);
+      return { name: user ? user.name : `Unknown ` };
+
+    });
+  }
+
+
     // Map the receiver field to the corresponding user name from the user list
     const mappedNotifications = filtered.map((notification: any) => {
       const matchedUserReceiver = this.userList.find((user: any) => user.userId === notification.receiver);
       const matchedUserSender = this.userList.find((user: any) => user.userId === notification.sender);
 
       // Replace receiver ID with the user name if a match is found
-=======
+
   getSingleNameFromId(id: string): string {
     const user = this.userList.find(
       (user: any) => user.userId.toString() === id
     );
+    return user ? user.name : id;
+  }
+
+
+  getSingleNameFromId(id: string): string {
+    const user = this.userList.find((user: any) => user.userId.toString() === id);
     return user ? user.name : id;
   }
 
@@ -190,10 +243,16 @@ export class NotificationInformationComponent implements OnInit {
   ): any[] {
     const receiverIds = attention.split(',').map((id) => id.trim());
 
+
     return receiverIds.map((receiverId) => {
       const user = this.userList.find(
         (user: any) => user.userId.toString() === receiverId
       );
+
+
+    
+    return receiverIds.map((receiverId) => {
+      const user = this.userList.find((user: any) => user.userId.toString() === receiverId);
 
       const matchedNotification = notifications.find(
         (notification: any) =>
@@ -201,16 +260,16 @@ export class NotificationInformationComponent implements OnInit {
           notification.receiver.toString() === receiverId // Ensure we are checking against the correct property
       );
 
+
       console.log(matchedNotification);
 
->>>>>>> Stashed changes
+
       return {
-        ...notification,
-        sender: matchedUserSender ? matchedUserSender.name : notification.sender,
-        receiver: matchedUserReceiver ? matchedUserReceiver.name : notification.receiver // Fallback to receiver ID if no match
+        name: user ? user.name : `Unknown (${receiverId})`,
+        viewed: matchedNotification ? matchedNotification.viewed : 'No', // 'No' should be replaced with the correct boolean condition
       };
     });
-<<<<<<< Updated upstream
+
 
     // Update the MatTableDataSource with filtered data
     this.filteredNotifications.data = mappedNotifications;
@@ -218,16 +277,25 @@ export class NotificationInformationComponent implements OnInit {
     this.filteredNotifications.sort = this.sortNotifications; // Connect sorting
 
     console.log('Filtered Notifications with mapped receiver names:', this.filteredNotifications.data);
-=======
+
   }
 
+
+  }
+  
+ main
   openModal(document: any): void {
     this.dialog.open(ReceiverModalComponent, {
       data: document,
       width: '80vw',
       maxWidth: '95vw',
       maxHeight: '100vh',
+
     });
->>>>>>> Stashed changes
+
+      
+    });
+
   }
+  
 }

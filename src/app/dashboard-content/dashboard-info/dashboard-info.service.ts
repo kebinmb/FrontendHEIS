@@ -1,28 +1,25 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { catchError, map, Observable, of, switchMap } from 'rxjs';
+import { Observable, switchMap, map, catchError, of } from 'rxjs';
 import { TokenService } from 'src/app/token.service';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class NotificationInformationServiceService {
+export class DashboardInfoService {
   private apiBaseUrl = environment.apiBaseUrl;
-
   constructor(private tokenService:TokenService, private http:HttpClient, private snackBar:MatSnackBar) { }
 
-  
-
-  getMonthlyReports(month:string,year:string):Observable<any[]>{
+  getAllNotifications():Observable<any[]>{
     return this.tokenService.getToken().pipe(
       switchMap((response:any)=>{
         const token=response.accessToken;
         const headers = new HttpHeaders({
           'Authorization': `Bearer ${token}`
         });
-        return this.http.get(`${this.apiBaseUrl}/reports/monthly/${month}/${year}`,{
+        return this.http.get(`${this.apiBaseUrl}/notifications/all`,{
           headers:headers,
           responseType:'text',
           withCredentials:true
@@ -48,5 +45,25 @@ export class NotificationInformationServiceService {
     );
   }
 
-
+  getArchives(): Observable<any[]> {
+    return this.tokenService.getToken().pipe(
+      switchMap((response: any) => {
+        const token = response.accessToken; // Replace with your actual token
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}` // Adjust the token format if necessary
+        });
+        return this.http.get<any[]>(`${this.apiBaseUrl}/archives/documents`, {
+          headers: headers,
+          withCredentials: true
+        });
+      }),
+      map((response: any[]) => {
+        return response || []; // Return response or an empty array if null/undefined
+      }),
+      catchError((error) => {
+        console.error('Failed to fetch archives', error);
+        return of([]); // Return an empty array on error
+      })
+    );
+  }
 }

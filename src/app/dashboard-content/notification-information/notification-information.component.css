@@ -1,7 +1,6 @@
 /* General styles */
-
 .wrapper {
-<<<<<<< Updated upstream
+
     padding: 0px 40px 40px 40px;
     margin-top: 88px;
     margin-left: 220px;
@@ -235,7 +234,7 @@
     padding: 0 !important;
   }
   
-=======
+
   padding: 0 40px 40px 40px;
   margin-top: 88px;
   margin-left: 220px;
@@ -274,9 +273,13 @@ button.mat-raised-button {
   background-color: white !important;
 }
 
+
 ::ng-deep
   .mdc-text-field--filled:not(.mdc-text-field--disabled)
   .mdc-line-ripple::before {
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before {
+
   border-bottom-color: var(--mdc-filled-text-field-active-indicator-color);
   border: none;
 }
@@ -297,12 +300,21 @@ button.mat-raised-button {
 ::ng-deep
   .mdc-text-field--filled:not(.mdc-text-field--disabled).mdc-text-field--focused
   .mdc-floating-label--float-above {
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::after {
+  border-bottom-color: #08783f !important;
+}
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-floating-label,
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-floating-label--float-above {
+
   color: #08783f !important;
 }
 
 ::ng-deep .mdc-text-field--outlined {
   --mdc-outlined-text-field-container-shape: var(--rounded-corners) !important;
 }
+
 
 .mat-elevation-z8-container {
   background-color: var(--bg-color);
@@ -360,6 +372,8 @@ button.mat-raised-button {
   }
 }
 
+
+
 /* Table styling */
 table.mat-table {
   width: 100%;
@@ -403,7 +417,13 @@ tr.mat-row:nth-child(even) {
   color: white;
 }
 
+
 #receiverModal {
   border-radius: 30px;
 }
->>>>>>> Stashed changes
+
+
+
+
+
+

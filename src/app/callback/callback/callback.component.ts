@@ -59,7 +59,7 @@ export class CallbackComponent implements OnInit {
 
                 // Navigate according to access level
                 if (decryptedAccessLevel === '1') {
-                  this.router.navigate(['dashboard']); // Redirect to dashboard
+                  this.router.navigate(['dashboard/dashboard-info']); // Redirect to dashboard
                 } else {
                   this.navigateToNotifications();
                 }

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import * as CryptoJS from 'crypto-js'; // Import CryptoJS for encryption
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -88,4 +89,30 @@ export class AuthService {
       })
     );
   }
+
+  //Decode the token and return the payload
+  decodeToken(token:string):any{
+    try{
+      return jwtDecode(token);
+    }catch(error){
+      console.error('Invalid Token',error);
+      return null;
+    }
+  }
+
+  //Check if the token is expired
+  isTokenExpired(token:string):boolean{
+    const decoded = this.decodeToken(token);
+    if(!decoded || !decoded.exp){
+      return true;
+    }
+    const expirationDate = new Date(decoded.exp * 1000); // Convert exp to milliseconds
+    return expirationDate < new Date();
+  }
+    // Handle token expiry and redirect
+    handleTokenExpiry(token: string) {
+      if (this.isTokenExpired(token)) {
+        this.router.navigate(['/access-expired']); // Redirect to the access expired page
+      }
+    }
 }

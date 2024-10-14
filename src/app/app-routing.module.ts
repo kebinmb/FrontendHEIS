@@ -17,6 +17,8 @@ import { authGuard } from './auth.guard';
 import { authViewGuard } from './auth-view.guard';
 import { ErrorComponent } from './error/error.component';
 import { NotificationInformationComponent } from './dashboard-content/notification-information/notification-information.component';
+import { DashboardInfoComponent } from './dashboard-content/dashboard-info/dashboard-info.component';
+import { LogoutComponent } from './logout/logout.component';
 
 export const routes: Routes = [
   {
@@ -41,16 +43,18 @@ export const routes: Routes = [
       { path: 'emultiple', component: EmailMultipleComponent },
       { path: 'institutions', component: InstitutionComponent },
       { path: 'customgroup', component: CustomGroupComponent },
-      {
-        path: 'notificationInformation',
-        component: NotificationInformationComponent,
-      },
-    ],
+      { path: 'notificationInformation',component:NotificationInformationComponent},
+      { path: 'dashboard-info',component:DashboardInfoComponent}
+    ]
   },
   {
     path: 'notifications/:documentId',
     component: NotificationsComponent,
     canActivate: [authViewGuard], // Independent guard for notifications
+  },
+  {
+    path: 'logout',
+    component: LogoutComponent,
   },
   {
     path: 'callback',
