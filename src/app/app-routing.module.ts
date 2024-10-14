@@ -17,15 +17,17 @@ import { authGuard } from './auth.guard';
 import { authViewGuard } from './auth-view.guard';
 import { ErrorComponent } from './error/error.component';
 import { NotificationInformationComponent } from './dashboard-content/notification-information/notification-information.component';
+import { DashboardInfoComponent } from './dashboard-content/dashboard-info/dashboard-info.component';
+import { LogoutComponent } from './logout/logout.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: LoginComponent,
+    component: LoginComponent
   },
   {
     path: 'login',
-    component: LoginComponent,
+    component: LoginComponent
   },
   {
     path: 'dashboard',
@@ -41,35 +43,37 @@ export const routes: Routes = [
       { path: 'emultiple', component: EmailMultipleComponent },
       { path: 'institutions', component: InstitutionComponent },
       { path: 'customgroup', component: CustomGroupComponent },
-      {
-        path: 'notificationInformation',
-        component: NotificationInformationComponent,
-      },
-    ],
+      { path: 'notificationInformation',component:NotificationInformationComponent},
+      { path: 'dashboard-info',component:DashboardInfoComponent}
+    ]
   },
   {
     path: 'notifications/:documentId',
     component: NotificationsComponent,
-    canActivate: [authViewGuard], // Independent guard for notifications
+    canActivate: [authViewGuard] // Independent guard for notifications
+  },
+  {
+    path: 'logout',
+    component: LogoutComponent,
   },
   {
     path: 'callback',
-    component: CallbackComponent,
+    component: CallbackComponent
   },
   {
     path: 'error',
-    component: ErrorComponent,
+    component: ErrorComponent
   },
   // Catch-all route to handle any unknown paths
   {
     path: '**',
     redirectTo: 'error', // Redirect unknown paths to ErrorComponent
-    pathMatch: 'full',
+    pathMatch: 'full'
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

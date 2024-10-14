@@ -1,0 +1,42 @@
+/* homepage.component.css */
+
+/* Basic Layout */
+.wrapper {
+  padding: 0px 40px 40px 40px;
+  margin-top: 88px;
+  margin-left: 220px;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+}
+
+/* Row of Cards */
+.row-cards {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  justify-content: space-between;
+}
+
+.small-card {
+  flex: 1;
+  min-width: 200px;
+  max-width: 300px;
+}
+
+/* Big Cards Below */
+.big-cards {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.big-card {
+  flex: 1;
+  min-width: 300px;
+  margin-bottom: 16px;
+}

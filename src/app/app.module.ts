@@ -85,6 +85,10 @@ import { NotificationsComponent } from './dashboard-content/notifications/notifi
 import { ErrorComponent } from './error/error.component';
 import { NotificationInformationComponent } from './dashboard-content/notification-information/notification-information.component';
 import { DatePipe } from '@angular/common';
+import { ReceiverModalComponent } from './dashboard-content/notification-information/receiver-modal/receiver-modal.component';
+import { DashboardInfoComponent } from './dashboard-content/dashboard-info/dashboard-info.component';
+import { MatToolbarModule} from '@angular/material/toolbar';
+import { LogoutComponent } from './logout/logout.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -118,6 +122,9 @@ import { DatePipe } from '@angular/common';
     NotificationsComponent,
     ErrorComponent,
     NotificationInformationComponent,
+    ReceiverModalComponent,
+    DashboardInfoComponent,
+    LogoutComponent,
     
    
   ],
@@ -169,6 +176,7 @@ import { DatePipe } from '@angular/common';
     MatProgressBarModule,
     MatOptionModule,
     MatMenuModule,
+    MatToolbarModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },DatePipe],
   bootstrap: [AppComponent]
