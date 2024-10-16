@@ -3,7 +3,15 @@
   margin-left: 220px;
   margin-top: 10vh;
 }
-
+.container{
+  width: 60%;
+  height: 60%;
+}
+.mat-mdc-card-header{
+  background-color: #08783f;
+  color:white;
+  margin-bottom: 20px;
+}
 .email-row {
   display: flex;
   align-items: center;

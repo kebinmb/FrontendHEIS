@@ -89,6 +89,7 @@ import { ReceiverModalComponent } from './dashboard-content/notification-informa
 import { DashboardInfoComponent } from './dashboard-content/dashboard-info/dashboard-info.component';
 import { MatToolbarModule} from '@angular/material/toolbar';
 import { LogoutComponent } from './logout/logout.component';
+import { CustomGroupModalComponent } from './dashboard-content/custom-group/custom-group-modal/custom-group-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -125,6 +126,7 @@ import { LogoutComponent } from './logout/logout.component';
     ReceiverModalComponent,
     DashboardInfoComponent,
     LogoutComponent,
+    CustomGroupModalComponent,
     
    
   ],

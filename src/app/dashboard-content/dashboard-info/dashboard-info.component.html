@@ -21,17 +21,68 @@
             <mat-card-header>
               <mat-card-title>Recent Notifications</mat-card-title>
             </mat-card-header>
-            <mat-card-content>
-              <p>Table content here.</p>
+            <mat-card-content class="card-notifications">
+              <table mat-table [dataSource]="latestNotifications" class="notification-table" matSort>
+                <!-- Document ID Column -->
+                <ng-container matColumnDef="documentId">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Document ID</th>
+                  <td mat-cell *matCellDef="let notification">{{ notification.documentId }}</td>
+                </ng-container>
+          
+                <!-- Receiver Column -->
+                <ng-container matColumnDef="receiver">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Receiver</th>
+                  <td mat-cell *matCellDef="let notification">{{ notification.receiverName }}</td>
+                </ng-container>
+          
+                <!-- Timestamp Column -->
+                <ng-container matColumnDef="timestamp">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Timestamp</th>
+                  <td mat-cell *matCellDef="let notification">{{ notification.timestamp | date: 'medium' }}</td>
+                </ng-container>
+          
+                <!-- Table Header Row -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          
+                <!-- Table Data Row -->
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          
+              </table>
             </mat-card-content>
           </mat-card>
 
           <mat-card class="big-card">
             <mat-card-header>
-              <mat-card-title>Recent Something</mat-card-title>
+              <mat-card-title>Recent Documents</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-              <p>Table man diri.</p>
+              <table mat-table [dataSource]="latestArchives" class="mat" matSort>
+          
+                <!-- Document Number Column -->
+                <ng-container matColumnDef="documentNumber">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Document Number</th>
+                  <td mat-cell *matCellDef="let archive">{{ archive.documentNumber }}</td>
+                </ng-container>
+          
+                <!-- Subject Column -->
+                <ng-container matColumnDef="subject">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Subject</th>
+                  <td mat-cell *matCellDef="let archive">{{ archive.subject }}</td>
+                </ng-container>
+          
+                <!-- Timestamp Column -->
+                <ng-container matColumnDef="timestamp">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Timestamp</th>
+                  <td mat-cell *matCellDef="let archive">{{ archive.timestamp | date: 'medium' }}</td>
+                </ng-container>
+          
+                <!-- Table Header Row -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsArchives"></tr>
+          
+                <!-- Table Data Row -->
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsArchives"></tr>
+          
+              </table>
             </mat-card-content>
           </mat-card>
         </div>
