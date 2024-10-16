@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { LogoutService } from './logout.service';
 
 @Component({
   selector: 'app-logout',
@@ -9,31 +10,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class LogoutComponent {
 
-  constructor(private authService:AuthService,private snackBar:MatSnackBar){}
-
+  constructor(private authService:AuthService,private snackBar:MatSnackBar,private logoutService:LogoutService){}
   ngOnInit(): void {
-    this.authService.logout(); // Call the logout method
-    this.clearSessionAndCookies();
-    this.openLogoutSnackbar(); // Show the snackbar after logout
+    this.logoutService.logout(); // Trigger logout on component initialization
   }
-
-  // Snackbar function to display logout success message
-  openLogoutSnackbar(): void {
-    this.snackBar.open('You have successfully logged out.', 'OK', {
-      duration: 3000, // 3 seconds duration
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-    });
-  }
-  clearSessionAndCookies(): void {
-    // Clear session storage
-    sessionStorage.clear();
-
-    // Clear cookies by setting their expiration date to the past
-    const cookies = document.cookie.split(';');
-    for (const cookie of cookies) {
-      const [name] = cookie.split('=');
-      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-    }
-  }
+ 
 }

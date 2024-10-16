@@ -38,7 +38,7 @@ export class CallbackComponent implements OnInit {
       next: (response: any) => {
         this.accessToken = response.accessToken || null;
         this.refreshToken = response.refreshToken || null;
-
+    
         if (this.accessToken && this.refreshToken) {
           // Store tokens
           this.authService.storeTokens(this.accessToken, this.refreshToken);
@@ -48,15 +48,29 @@ export class CallbackComponent implements OnInit {
             next: (adminDetails: any) => {
               this.admin = adminDetails;
               this.authService.storeAdminDetails(this.admin);
-
-              // Decrypt and use the access level
+    
+              // Check session storage and Google cookies
               const encryptedAccessLevel = sessionStorage.getItem('access_level');
-              if (encryptedAccessLevel) {
+              if (!encryptedAccessLevel && this.googleCookiesExist()) {
+                // Decrypt and use the access level if Google cookies are present
+                const decryptedBytes = CryptoJS.AES.decrypt(encryptedAccessLevel!, this.secretKey);
+                const decryptedAccessLevel = decryptedBytes.toString(CryptoJS.enc.Utf8);
+                
+                console.log('Decrypted Access Level:', decryptedAccessLevel);
+    
+                // Navigate according to access level
+                if (decryptedAccessLevel === '1') {
+                  this.router.navigate(['dashboard/dashboard-info']); // Redirect to dashboard
+                } else {
+                  this.navigateToNotifications();
+                }
+              } else if (encryptedAccessLevel) {
+                // Handle the case where access level is available in session storage
                 const decryptedBytes = CryptoJS.AES.decrypt(encryptedAccessLevel, this.secretKey);
                 const decryptedAccessLevel = decryptedBytes.toString(CryptoJS.enc.Utf8);
                 
                 console.log('Decrypted Access Level:', decryptedAccessLevel);
-
+    
                 // Navigate according to access level
                 if (decryptedAccessLevel === '1') {
                   this.router.navigate(['dashboard/dashboard-info']); // Redirect to dashboard
@@ -82,6 +96,8 @@ export class CallbackComponent implements OnInit {
       }
     });
   }
+    
+    
 
   private handleTokenError() {
     // Check if documentId is available
@@ -103,5 +119,10 @@ export class CallbackComponent implements OnInit {
     }
     // Clear the stored documentId after navigation
     localStorage.removeItem('documentId');
+  }
+  // Helper to check for Google cookies (HSID or SID)
+  private googleCookiesExist(): boolean {
+    const cookies = document.cookie.split('; ');
+    return cookies.some(cookie => cookie.startsWith('HSID=') || cookie.startsWith('SID='));
   }
 }

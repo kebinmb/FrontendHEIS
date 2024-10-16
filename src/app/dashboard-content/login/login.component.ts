@@ -39,6 +39,9 @@ export class LoginComponent {
   //     }
   //   });
   // }
+  ngOnInit(){
+    
+  }
   constructor(private authService: AuthService) { }
 
   login() {

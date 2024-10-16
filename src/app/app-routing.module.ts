@@ -19,6 +19,7 @@ import { ErrorComponent } from './error/error.component';
 import { NotificationInformationComponent } from './dashboard-content/notification-information/notification-information.component';
 import { DashboardInfoComponent } from './dashboard-content/dashboard-info/dashboard-info.component';
 import { LogoutComponent } from './logout/logout.component';
+import { loginAuthGuard } from './login-auth.guard';
 
 export const routes: Routes = [
   {
@@ -27,7 +28,8 @@ export const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [loginAuthGuard], // Use loginAuthGuard to control access
   },
   {
     path: 'dashboard',
