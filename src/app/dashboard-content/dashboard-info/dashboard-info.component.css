@@ -14,29 +14,113 @@
   width: 100%;
 }
 
+.dashboard-container {
+  max-width: unset;
+  padding-left: unset;
+  padding-right: unset;
+
+  & > .mat-mdc-card {
+    display: contents;
+
+    & > .mat-mdc-card-header {
+      display: contents;
+    }
+    & > .container {
+      display: contents;
+    }
+  }
+}
+
 /* Row of Cards */
 .row-cards {
   display: flex;
   gap: 16px;
   margin-bottom: 24px;
   justify-content: space-between;
+  flex-wrap: wrap-reverse;
 }
 
 .small-card {
-  flex: 1;
-  min-width: 200px;
-  max-width: 300px;
+  box-shadow: none;
+  padding: 10px;
+  border-radius: var(--rounded-corners);
+  font-weight: 700;
+  width: 100%;
+  color: #525252;
+  background-color: var(--bg-color);
+  justify-content: space-between;
+  flex-basis: 300px;
+  flex-grow: 1;
+
+  & .mat-mdc-card-header {
+    padding: unset;
+    padding: 10px 10px 20px 10px;
+    & .mat-mdc-card-title {
+      font-size: 1rem;
+      line-height: normal;
+    }
+  }
+  & .mat-mdc-card-content {
+    height: 125px;
+    text-align: center;
+    background-color: white;
+    border-radius: var(--rounded-corners);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 10px;
+    & p {
+      font-size: 1.5rem;
+      font-weight: 400;
+      line-height: normal;
+      text-wrap: balance;
+    }
+  }
 }
 
 /* Big Cards Below */
 .big-cards {
   display: flex;
   gap: 16px;
+  margin-bottom: 24px;
+  justify-content: space-between;
+  height: 400px;
+  margin-bottom: 0;
   flex-wrap: wrap;
 }
 
 .big-card {
   flex: 1;
-  min-width: 300px;
-  margin-bottom: 16px;
+  box-shadow: none;
+  padding: 10px;
+  border-radius: var(--rounded-corners);
+  font-weight: 700;
+  width: 100%;
+  color: #525252;
+  background-color: var(--bg-color);
+  justify-content: space-between;
+  flex-basis: 500px;
+  flex-grow: 1;
+
+  & .mat-mdc-card-header {
+    padding: unset;
+    padding: 10px 10px 20px 10px;
+    & .mat-mdc-card-title {
+      font-size: 1rem;
+      line-height: normal;
+    }
+  }
+  & .mat-mdc-card-content {
+    text-align: center;
+    background-color: white;
+    border-radius: var(--rounded-corners);
+    display: flex;
+    padding: 10px;
+    height: calc(100dvh - 410px);
+    & p {
+      font-size: 1rem;
+      font-weight: normal;
+      line-height: normal;
+    }
+  }
 }

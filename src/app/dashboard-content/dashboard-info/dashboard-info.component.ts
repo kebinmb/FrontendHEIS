@@ -4,16 +4,16 @@ import * as CryptoJS from 'crypto-js';
 @Component({
   selector: 'app-dashboard-info',
   templateUrl: './dashboard-info.component.html',
-  styleUrls: ['./dashboard-info.component.css']
+  styleUrls: ['./dashboard-info.component.css'],
 })
 export class DashboardInfoComponent {
-  notifications:any[]=[];
-  archives:any[]=[];
+  notifications: any[] = [];
+  archives: any[] = [];
   secretKey = 'chmsu.edu.ph.secret-key.secret';
   rowCards = [
-    { title: 'Latest Notification', content: '' },
+    { title: 'Total Notification', content: '' },
     { title: 'Total Documents', content: '' },
-    { title: 'Currently Logged In User', content: '' }
+    { title: 'Currently Logged In User', content: '' },
   ];
 
   constructor(private dashboardInfoService: DashboardInfoService) {}
@@ -27,23 +27,25 @@ export class DashboardInfoComponent {
       },
       error: (error) => {
         console.error('Error fetching notifications:', error);
-      }
+      },
     });
 
     this.dashboardInfoService.getArchives().subscribe({
-      next:(response:any)=>{
+      next: (response: any) => {
         this.archives = response;
         this.rowCards[1].content = `${this.archives.length} documents available`;
-      }
-    })
+      },
+    });
 
     const currentUser = sessionStorage.getItem('name');
     const decryptedAccessLevel = decryptValue(currentUser, this.secretKey);
     this.rowCards[2].content = `${decryptedAccessLevel}`;
-    
   }
 }
-function decryptValue(encryptedValue: string | null, secretKey: string): string {
+function decryptValue(
+  encryptedValue: string | null,
+  secretKey: string
+): string {
   if (encryptedValue) {
     const bytes = CryptoJS.AES.decrypt(encryptedValue, secretKey);
     return bytes.toString(CryptoJS.enc.Utf8);
