@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <div class="wrapper">
   <form [formGroup]="customGroup" (ngSubmit)="createNewGroup()">
     <mat-card>
@@ -55,6 +56,102 @@
     >
       <mat-icon>delete</mat-icon>
     </button>
+=======
+<div class="wrapper customGroup-wrapper">
+  <div class="container">
+    <form [formGroup]="customGroup" (ngSubmit)="createNewGroup()">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Create New Group</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="form-group">
+            <!-- Group Name Input -->
+            <mat-form-field>
+              <mat-label>Group Name</mat-label>
+              <input
+                matInput
+                formControlName="groupName"
+                placeholder="Enter group name"
+                required
+              />
+              <mat-error
+                *ngIf="
+                  customGroup.get('groupName')?.invalid &&
+                  customGroup.get('groupName')?.touched
+                "
+              >
+                Group name is required
+              </mat-error>
+              <mat-error *ngIf="groupNameExists()">
+                Group Name exists.
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Dynamic Email Inputs -->
+            <div formArrayName="emails">
+              <div
+                *ngFor="let email of emailsArray.controls; let i = index"
+                class="email-row"
+              >
+                <mat-form-field appearance="outline" class="email-input">
+                  <mat-label>Email {{ i + 1 }}</mat-label>
+                  <input
+                    matInput
+                    [formControlName]="i"
+                    [matAutocomplete]="auto"
+                    [matAutocomplete]="auto"
+                    placeholder="Enter or select email"
+                    required
+                  />
+                  <mat-error *ngIf="email.touched">
+                    Please enter a valid email.
+                  </mat-error>
+                  <mat-autocomplete
+                    #auto="matAutocomplete"
+                    (optionSelected)="onOptionSelected($event, i)"
+                  >
+                    <mat-option
+                      *ngFor="let user of filteredUsers | async"
+                      [value]="user.email"
+                    >
+                      {{ user.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+                <button
+                  mat-icon-button
+                  color="warn"
+                  *ngIf="emailsArray.length > 1"
+                  (click)="removeEmail(i)"
+                  class="delete-email"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+
+            <!-- Button to Add New Email -->
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="addEmail()"
+              type="button"
+              class="add-email-btn"
+            >
+              <mat-icon>add</mat-icon>
+              Add Email
+            </button>
+          </div>
+        </mat-card-content>
+
+        <mat-card-actions class="card-actions">
+          <button mat-raised-button type="submit">Create Group</button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+>>>>>>> Stashed changes
   </div>
 </div>
 

@@ -3,7 +3,28 @@
   margin-left: 220px;
   margin-top: 10vh;
 }
+<<<<<<< Updated upstream
 
+=======
+.container {
+  width: 60%;
+  height: 60%;
+}
+.mat-mdc-card-header {
+  background-color: #08783f;
+  color: white;
+  margin-bottom: 20px;
+}
+.container {
+  width: 60%;
+  height: 60%;
+}
+.mat-mdc-card-header {
+  background-color: #08783f;
+  color: white;
+  margin-bottom: 20px;
+}
+>>>>>>> Stashed changes
 .email-row {
   display: flex;
   align-items: center;
@@ -15,9 +36,74 @@
 }
 
 .delete-email {
-  margin-top: 25px;
+  margin-left: 5px;
 }
 
 .add-email-btn {
   margin-top: 15px;
+}
+
+.customGroup-wrapper {
+  min-height: calc(100dvh - 88px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 88px;
+  & .container {
+    height: auto;
+    max-width: 600px;
+    min-width: 350px;
+    & .mat-mdc-card {
+      border-radius: var(--rounded-corners);
+      overflow: hidden;
+      box-shadow: none;
+      background-color: var(--bg-color);
+      padding: 0px 10px 0px 10px;
+      & .mat-mdc-card-header {
+        padding: unset;
+        padding: 20px 10px 20px 10px;
+        background-color: var(--bg-color);
+        color: #525252;
+        margin: unset;
+      }
+      & .mat-mdc-card-content {
+        background-color: white;
+        border-radius: var(--rounded-corners);
+        padding: 10px;
+        & .form-group {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          & .ng-untouched {
+            display: contents;
+          }
+        }
+        & .mat-mdc-form-field {
+          width: 100%;
+          overflow: hidden;
+          & .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+            border-radius: var(--rounded-corners) !important;
+            border: 1px solid var(--mdc-outlined-text-field-outline-color) !important;
+            background-color: white !important;
+          }
+        }
+        & .mat-mdc-raised-button:not(:disabled) {
+          margin: auto;
+          border-radius: var(--rounded-corners);
+        }
+      }
+
+      & .mat-mdc-card-actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 15px 0px 15px 0px;
+        & button {
+          width: 100%;
+          padding: 20px;
+          border-radius: var(--rounded-corners);
+        }
+      }
+    }
+  }
 }
