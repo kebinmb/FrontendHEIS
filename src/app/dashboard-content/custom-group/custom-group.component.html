@@ -1,11 +1,12 @@
-<div class="wrapper">
+
+<div class="wrapper customGroup-wrapper">
   <div class="container">
     <form [formGroup]="customGroup" (ngSubmit)="createNewGroup()">
       <mat-card>
         <mat-card-header>
           <mat-card-title>Create New Group</mat-card-title>
         </mat-card-header>
-  
+
         <mat-card-content>
           <div class="form-group">
             <!-- Group Name Input -->
@@ -29,7 +30,7 @@
                 Group Name exists.
               </mat-error>
             </mat-form-field>
-  
+
             <!-- Dynamic Email Inputs -->
             <div formArrayName="emails">
               <div
@@ -72,7 +73,7 @@
                 </button>
               </div>
             </div>
-  
+
             <!-- Button to Add New Email -->
             <button
               mat-raised-button
@@ -86,7 +87,7 @@
             </button>
           </div>
         </mat-card-content>
-  
+
         <mat-card-actions class="card-actions">
           <button mat-raised-button type="submit">Create Group</button>
         </mat-card-actions>
@@ -94,3 +95,4 @@
     </form>
   </div>
 </div>
+
