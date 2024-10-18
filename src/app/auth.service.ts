@@ -10,12 +10,13 @@ import { jwtDecode } from 'jwt-decode';
   providedIn: 'root'
 })
 export class AuthService {
-  private clientId = '66264672124-0nccv7im2tmkqp7fit6dqekki57a4g94.apps.googleusercontent.com'; // Replace with your client ID
-  private redirectUri = 'http://localhost:4200/callback'; // Your Angular app callback URL
-  private authUrl = 'http://localhost:8080/oauth2/authorize'; // Your authorization server URL
-  private tokenUrl = 'http://localhost:8080/oauth2/token'; // Your token URL
-  private secretKey: string = 'chmsu.edu.ph.secret-key.secret';
   private apiBaseUrl = environment.apiBaseUrl;
+  private clientId = '66264672124-0nccv7im2tmkqp7fit6dqekki57a4g94.apps.googleusercontent.com'; // Replace with your client ID
+  private redirectUri = `${environment.apiBaseUrl}/login/oauth2/code/google`; // Your Angular app callback URL
+  private authUrl = `${environment.apiBaseUrl}/oauth2/authorize`; // Your authorization server URL
+  private tokenUrl = `${environment.apiBaseUrl}/oauth2/token`; // Your token URL
+  private secretKey: string = environment.secretKey;
+  
 
   constructor(private http: HttpClient, private router: Router) { }
 
