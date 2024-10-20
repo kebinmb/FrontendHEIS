@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { LoginService } from './login.service';
 import { FormsModule } from '@angular/forms';
 import * as CryptoJS from 'crypto-js';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/auth.service';
+import { HttpService } from 'src/app/OAuthHttpServices/http.service';
+import { catchError, map, Observable, throwError } from 'rxjs';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -14,37 +16,104 @@ import { AuthService } from 'src/app/auth.service';
 export class LoginComponent {
   username: string = '';
   password: string = '';
+  url: string = "";
+  private loginInitiated = false;
+  apiBaseUrl : string = environment.apiBaseUrl;
   private secretKey: string = 'chmsu.edu.ph.secret-key.secret';
-  // constructor(private loginService:LoginService,private routes:Router, private snackBar: MatSnackBar){}
-  
-  // ngOnInit(){
-  //   // sessionStorage.clear();
-  // }
-  onLogin() {
-  
+  componentToShow: string = "public";
+  constructor(private http: HttpService, private route:ActivatedRoute, private router:Router) { }
+  ngOnInit(): void {
+    this.http.get("/auth/url").subscribe({
+      next: (data: any) => {
+        this.url = data.authUrl; // Store the auth URL
+        console.log(data);
+      },
+      error: (err: any) => {
+        console.error("Error fetching auth URL:", err);
+      }
+    });
+
+    this.route.queryParams.subscribe(params => {
+      console.log(params);
+      if (params["code"]) {
+        this.handleLogin(params["code"]);
+      }
+    });
   }
 
-  // login() {
-  //   window.location.href = `${environment.apiBaseUrl}/oauth2/authorization/google`; 
-  //   this.loginService.insertLog().subscribe({
-  //     next: (response: any) => {
-  //       console.log(response);
-        
-  //       // Redirect after logging is complete
-        
-  //     },
-  //     error: (error: any) => {
-  //       console.error("Error occurred while logging", error);
-  //       // Optionally handle the error, e.g., show a user-friendly message
-  //     }
-  //   });
-  // }
-  ngOnInit(){
-    
+  onLoginButtonClick(): void {
+    if (!this.loginInitiated) {
+      this.loginInitiated = true; // Set flag to true
+      window.location.href = this.url; // Redirect to the auth URL
+    }
   }
-  constructor(private authService: AuthService) { }
 
-  login() {
-    this.authService.login(); // Start the OAuth2 login process
+  private handleLogin(code: string): void {
+    this.http.getToken(code).subscribe({
+      next: (result: any) => {
+        sessionStorage.setItem("access_token",result)
+        if (result) {
+          this.getAdminDetailsService().subscribe({
+            next: (admin: any) => {
+              this.storeAdminDetails(admin);
+              this.router.navigate(['/dashboard/dashboard-info']); // Navigate to dashboard
+            },
+            error: (error: any) => {
+              console.error("Error fetching user details:", error);
+            }
+          });
+        } else {
+          console.log("No valid code received");
+        }
+      },
+      error: (err: any) => {
+        console.error("Error fetching token:", err);
+      }
+    });
   }
+
+  storeAdminDetails(admin: any) {
+    const encryptedUsername = CryptoJS.AES.encrypt(admin.username.toString(), this.secretKey).toString();
+    const encryptedAccessLevel = CryptoJS.AES.encrypt(admin.accessLevel.toString(), this.secretKey).toString();
+    const encryptedCampus = CryptoJS.AES.encrypt(admin.campus.toString(), this.secretKey).toString();
+    const encryptedName = CryptoJS.AES.encrypt(admin.name.toString(), this.secretKey).toString();
+
+    sessionStorage.setItem("username", encryptedUsername);
+    sessionStorage.setItem("access_level", encryptedAccessLevel);
+    sessionStorage.setItem("campus", encryptedCampus);
+    sessionStorage.setItem("name", encryptedName);
+  }
+
+  logout() {
+    sessionStorage.removeItem('access_token');
+    sessionStorage.removeItem('refresh_token');
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('access_level');
+    sessionStorage.removeItem('campus');
+    sessionStorage.removeItem('name');
+    this.router.navigate(['/login']); // Redirect to login page
+  }
+
+  getAccessToken() {
+    return sessionStorage.getItem('access_token');
+  }
+
+  isAuthenticated(): boolean {
+    const token = sessionStorage.getItem('access_token');
+    return !!token;
+  }
+
+  getAdminDetailsService(): Observable<any> {
+    return this.http.getPrivate("/user/details").pipe(
+      map((response: any) => {
+        console.log(response); // Log the response
+        return response; // Return the response
+      }),
+      catchError((err: any) => {
+        console.error("Error fetching user details:", err);
+        return throwError(err); // Propagate the error
+      })
+    );
+  }
+ 
 }

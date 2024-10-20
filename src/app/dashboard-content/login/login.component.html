@@ -6,20 +6,18 @@
   </mat-card-header>
 
   <mat-card-content>
-    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
-      <!-- Additional Links -->
-      <div class="additional-links">
-        <h1>Sign-In</h1>
-        <p>Use your CHMSU Google Account</p>
-        <button mat-raised-button class="google-btn" (click)="login()">
-          <img
-            src="https://developers.google.com/identity/images/g-logo.png"
-            alt="Google Logo"
-            class="google-logo"
-          />
-          Sign in with Google
-        </button>
-      </div>
-    </form>
+    <!-- Additional Links -->
+    <div class="additional-links">
+      <h1>Sign-In</h1>
+      <p>Use your CHMSU Google Account</p>
+      <button mat-raised-button class="google-btn" (click)="onLoginButtonClick()">
+        <img
+          src="https://developers.google.com/identity/images/g-logo.png"
+          alt="Google Logo"
+          class="google-logo"
+        />
+        Sign in with Google
+      </button>
+    </div>
   </mat-card-content>
 </mat-card>

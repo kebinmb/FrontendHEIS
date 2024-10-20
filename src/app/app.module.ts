@@ -90,6 +90,9 @@ import { DashboardInfoComponent } from './dashboard-content/dashboard-info/dashb
 import { MatToolbarModule} from '@angular/material/toolbar';
 import { LogoutComponent } from './logout/logout.component';
 import { CustomGroupModalComponent } from './dashboard-content/custom-group/custom-group-modal/custom-group-modal.component';
+import { LoginComponentComponent } from './Components/login-component/login-component.component';
+import { ProtectedContentComponent } from './Components/protected-content/protected-content.component';
+import { WelcomeContentComponent } from './Components/welcome-content/welcome-content.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -127,7 +130,9 @@ import { CustomGroupModalComponent } from './dashboard-content/custom-group/cust
     DashboardInfoComponent,
     LogoutComponent,
     CustomGroupModalComponent,
-    
+    LoginComponentComponent,
+    ProtectedContentComponent,
+    WelcomeContentComponent
    
   ],
   imports: [
