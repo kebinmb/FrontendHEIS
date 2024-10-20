@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth.service';
 import { TokenService } from 'src/app/token.service';
 import * as CryptoJS from 'crypto-js';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-callback',
@@ -104,10 +103,10 @@ export class CallbackComponent implements OnInit {
     // Check if documentId is available
     if (this.documentId) {
       // Redirect to Google login
-      window.location.href = `${environment.apiBaseUrl}/oauth2/authorize`;
+      window.location.href = 'http://localhost:8080/oauth2/authorize';
     } else {
       // If documentId is not available, just navigate to the login page
-      window.location.href = `${environment.apiBaseUrl}/login/oauth2/code/google`;
+      window.location.href = 'http://localhost:8080/login/oauth2/code/google';
     }
   }
 
