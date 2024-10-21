@@ -1,4 +1,6 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -7,10 +9,19 @@ import { environment } from 'src/environments/environment';
 export class DocumentModalService {
   private apiServerUrl = environment.apiBaseUrl;
 
-  constructor() { }
+  constructor(private http:HttpClient) { }
 
-  generateUrls(filenames: string[]): string[] {
-    return filenames.map(filename => `${this.apiServerUrl}/archives/${filename}`);
+  generateUrls(filenames: string[]): Observable<Blob>[] {
+    const token = sessionStorage.getItem("access_token");
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    // Return an array of Observables (for each file request)
+    return filenames.map(filename => {
+      const url = `${this.apiServerUrl}/archives/file/${filename}`;
+      return this.http.get(url, { headers, responseType: 'blob' });
+    });
   }
 
   parseFilenames(filenames: string | string[]): string[] {

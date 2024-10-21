@@ -19,7 +19,7 @@ export class InstitutionService {
   getDepartmentDetails(): Observable<any[]> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.accessToken; // Replace with your actual token
+        const token = sessionStorage.getItem("access_token"); // Replace with your actual token
         const headers = new HttpHeaders({
           Authorization: `Bearer ${token}`, // Add the token in the Authorization header
         });
@@ -47,7 +47,7 @@ export class InstitutionService {
   getUserList(): Observable<any[]> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.accessToken; // Use the actual token
+        const token = sessionStorage.getItem("access_token"); // Use the actual token
         const headers = new HttpHeaders({
           Authorization: `Bearer ${token}`, // Include token in Authorization header
         });
@@ -75,7 +75,7 @@ export class InstitutionService {
   addNewDepartment(formData: FormData): Observable<string> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.accessToken; // Use the actual token
+        const token = sessionStorage.getItem("access_token"); // Use the actual token
         const headers = new HttpHeaders({
           Authorization: `Bearer ${token}`, // Add token in the Authorization header
         });
@@ -103,7 +103,7 @@ export class InstitutionService {
   ): Observable<any> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.accessToken; // Use the actual token
+        const token = sessionStorage.getItem("access_token"); // Use the actual token
         const headers = new HttpHeaders({
           Authorization: `Bearer ${token}`, // Include token in Authorization header
         });
@@ -130,7 +130,7 @@ export class InstitutionService {
   deleteDepartment(id: number): Observable<any> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.accessToken; // Use the actual token
+        const token = sessionStorage.getItem("access_token"); // Use the actual token
         const headers = new HttpHeaders({
           Authorization: `Bearer ${token}`, // Add token in the Authorization header
         });
@@ -149,7 +149,7 @@ export class InstitutionService {
   deleteUser(id: number): Observable<any> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.accessToken;
+        const token = sessionStorage.getItem("access_token");
         const headers = new HttpHeaders({
           Authorization: `Bearer ${token}`,
         });
@@ -171,7 +171,7 @@ export class InstitutionService {
   addNewUser(formData: any): Observable<any> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.accessToken;
+        const token = sessionStorage.getItem("access_token");
         const headers = new HttpHeaders({
           Authorization: `Bearer ${token}`,
         });
@@ -194,7 +194,7 @@ export class InstitutionService {
   getTotalUser(): Observable<any> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.accessToken; // Retrieve the token
+        const token = sessionStorage.getItem("access_token"); // Retrieve the token
         const headers = new HttpHeaders({
           Authorization: `Bearer ${token}`, // Add the token to Authorization header
         });
@@ -222,7 +222,7 @@ export class InstitutionService {
   editUserDetails(id: number, user: any, name: string): Observable<any> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.accessToken;
+        const token = sessionStorage.getItem("access_token");
         const headers = new HttpHeaders({
           Authorization: `Bearer ${token}`,
         });

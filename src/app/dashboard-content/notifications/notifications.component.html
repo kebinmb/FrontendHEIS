@@ -74,7 +74,9 @@
         <div *ngIf="errorMessage" class="alert alert-danger mt-3">
           {{ errorMessage }}
         </div> -->
-        <img id="card-image" mat-card-image [src]="documentImage" alt="Document Image">
+        <div *ngFor="let imageUrl of documentImage">
+          <img [src]="imageUrl" alt="Document Image" style="max-width: 100%; height: auto;" />
+        </div>
       </div>
       
 </div>

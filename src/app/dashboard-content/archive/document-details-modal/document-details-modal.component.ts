@@ -22,8 +22,26 @@ export class DocumentDetailsModalComponent {
     ////console.log(this.data.attention);
     if (this.data.attachment) {
       const filenames = this.modalService.parseFilenames(this.data.attachment);
-      this.imageUrls = this.modalService.generateUrls(filenames);
+      this.loadFiles(filenames);
     }
+  }
+
+  loadFiles(filenames: string[]) {
+    this.modalService.generateUrls(filenames).forEach(fileObservable => {
+      fileObservable.subscribe(blob => {
+        // Convert the blob into a URL and store it in the array
+        const objectUrl = URL.createObjectURL(blob);
+        this.imageUrls.push(objectUrl);
+        console.log(this.imageUrls)
+      }, error => {
+        console.error('Error fetching file:', error);
+      });
+    });
+  }
+
+  // Optionally, you can release the created URL objects when no longer needed to avoid memory leaks
+  ngOnDestroy() {
+    this.imageUrls.forEach(url => URL.revokeObjectURL(url));
   }
 
   getLetterType(type: number): string {

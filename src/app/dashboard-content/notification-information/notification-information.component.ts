@@ -38,7 +38,9 @@ export class NotificationInformationComponent implements OnInit {
   }
 
   private loadDocumentsAndUsers(): void {
-    this.notificationInformationService.getMonthlyReports('10', '2024').subscribe({
+    const currentMonth = new Date().getMonth() + 1; // Months are 0-indexed
+  const currentYear = new Date().getFullYear();
+    this.notificationInformationService.getMonthlyReports(currentMonth.toString(), currentYear.toString()).subscribe({
       next: (documents: any) => {
         this.listOfDocuments = documents;
         this.archiveService.getUserList().subscribe({

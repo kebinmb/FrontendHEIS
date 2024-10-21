@@ -16,7 +16,7 @@ export class LogsService {
   getUserList(): Observable<any[]> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.accessToken; // Get the token from token service
+        const token = sessionStorage.getItem("access_token"); // Get the token from token service
         const headers = new HttpHeaders({
           'Authorization': `Bearer ${token}` // Add token to the Authorization header
         });
@@ -44,7 +44,7 @@ export class LogsService {
   getLogs(date: string, campus: number): Observable<any[]> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.accessToken; // Get the token from the token service
+        const token = sessionStorage.getItem("access_token"); // Get the token from the token service
         const headers = new HttpHeaders({
           'Authorization': `Bearer ${token}` // Add token to the Authorization header
         });
@@ -78,7 +78,7 @@ export class LogsService {
   getDocumentLogs(date: string, campus: string): Observable<any[]> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.accessToken; // Get the token from the token service
+        const token = sessionStorage.getItem("access_token"); // Get the token from the token service
         const headers = new HttpHeaders({
           'Authorization': `Bearer ${token}` // Add token to the Authorization header
         });
@@ -117,7 +117,7 @@ export class LogsService {
   getUserMaintenanceLogs(date: string, campus: number): Observable<any[]> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.accessToken; // Get the token from the token service
+        const token = sessionStorage.getItem("access_token"); // Get the token from the token service
         const headers = new HttpHeaders({
           'Authorization': `Bearer ${token}` // Add token to the Authorization header
         });
@@ -151,7 +151,7 @@ export class LogsService {
   getActivityLogs(date: string, campus: number): Observable<any[]> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.accessToken; // Get the token from the token service
+        const token = sessionStorage.getItem("access_token"); // Get the token from the token service
         const headers = new HttpHeaders({
           'Authorization': `Bearer ${token}` // Add token to the Authorization header
         });

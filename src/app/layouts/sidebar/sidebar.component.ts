@@ -31,7 +31,13 @@ ngOnInit(){
     next:(response:any)=>{
       this.adminDetails = response;
       this.isLoaded = true;
-    }
-  })
+    },error:((err:any)=>{
+          this.snackBar.open("Error fetching user info","Close",{
+            duration:3000,
+            horizontalPosition:'right',
+            verticalPosition:'top'
+          });
+        })
+  });
 }
 }

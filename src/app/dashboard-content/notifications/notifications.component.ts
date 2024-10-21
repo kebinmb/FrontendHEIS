@@ -46,6 +46,10 @@ export class NotificationsComponent implements OnInit {
     
   }
 
+  ngOnDestroy() {
+    this.documentImage.forEach(url => URL.revokeObjectURL(url));
+  }
+
   private fetchNotificationCount() {
     // Fetch the latest notification count
     this.notificationService.getLatestNotificationCount().subscribe({
@@ -75,7 +79,7 @@ export class NotificationsComponent implements OnInit {
     });
   }
 
-  private getDocumentDetails(documentId: number) {
+  public getDocumentDetails(documentId: number) {
     // Fetch the access token first
     this.tokenService.getToken().subscribe({
       next: (tokenResponse: any) => {
@@ -94,7 +98,7 @@ export class NotificationsComponent implements OnInit {
 
             const filenames = this.notificationService.parseFilenames(response.attachment);
             console.log("File Names:",filenames);
-            this.documentImage = this.notificationService.generateUrls(filenames);
+            this.loadFiles(filenames);
             
             // Populate newNotification after fetching document details
             this.newNotification.documentId = response.documentNumber;
@@ -129,7 +133,18 @@ export class NotificationsComponent implements OnInit {
       }
     });
   }
-
+  loadFiles(filenames: string[]) {
+    this.notificationService.generateUrls(filenames).forEach(fileObservable => {
+      fileObservable.subscribe(blob => {
+        // Convert the blob into a URL and store it in the array
+        const objectUrl = URL.createObjectURL(blob);
+        this.documentImage.push(objectUrl);
+        console.log(this.documentImage)
+      }, error => {
+        console.error('Error fetching file:', error);
+      });
+    });
+  }
   createNotification() {
     this.notificationService.insertNotification(this.newNotification).subscribe({
       next: (response) => {

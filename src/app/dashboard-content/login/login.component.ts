@@ -18,10 +18,10 @@ export class LoginComponent {
   password: string = '';
   url: string = "";
   private loginInitiated = false;
-  apiBaseUrl : string = environment.apiBaseUrl;
+  apiBaseUrl: string = environment.apiBaseUrl;
   private secretKey: string = 'chmsu.edu.ph.secret-key.secret';
   componentToShow: string = "public";
-  constructor(private http: HttpService, private route:ActivatedRoute, private router:Router) { }
+  constructor(private http: HttpService, private route: ActivatedRoute, private router: Router) { }
   ngOnInit(): void {
     this.http.get("/auth/url").subscribe({
       next: (data: any) => {
@@ -51,12 +51,28 @@ export class LoginComponent {
   private handleLogin(code: string): void {
     this.http.getToken(code).subscribe({
       next: (result: any) => {
-        sessionStorage.setItem("access_token",result)
+        sessionStorage.setItem("access_token", result)
         if (result) {
           this.getAdminDetailsService().subscribe({
             next: (admin: any) => {
               this.storeAdminDetails(admin);
-              this.router.navigate(['/dashboard/dashboard-info']); // Navigate to dashboard
+              const accessLevel = sessionStorage.getItem("access_level")
+              if (accessLevel) {
+                const decryptedAccesLevel = CryptoJS.AES.decrypt(accessLevel, this.secretKey);
+                const BytesToString = decryptedAccesLevel.toString(CryptoJS.enc.Utf8);
+                if (BytesToString) {
+                  if (BytesToString === "1") {
+                    this.http.postPrivate("/logs/insertloginlog").subscribe({
+                      next:(data:any)=>{
+                        console.log("logs posted",data);
+                      }
+                    });
+                    this.router.navigate(['/dashboard/dashboard-info'])
+                  } else {
+                    this.navigateToNotifications()
+                  }
+                }; // Navigate to dashboard
+              }
             },
             error: (error: any) => {
               console.error("Error fetching user details:", error);
@@ -70,6 +86,17 @@ export class LoginComponent {
         console.error("Error fetching token:", err);
       }
     });
+  }
+
+  private navigateToNotifications() {
+    const storedDocumentId = sessionStorage.getItem('documentId');
+    if (storedDocumentId) {
+      this.router.navigate([`notifications/${storedDocumentId}`]);
+    } else {
+      this.router.navigate(['notifications']); // Fallback to notifications if no documentId
+    }
+    // Clear the stored documentId after navigation
+    sessionStorage.removeItem('documentId');
   }
 
   storeAdminDetails(admin: any) {
@@ -115,5 +142,5 @@ export class LoginComponent {
       })
     );
   }
- 
+
 }

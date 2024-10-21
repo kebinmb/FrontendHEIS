@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, switchMap, throwError } from 'rxjs';
+import { HttpService } from 'src/app/OAuthHttpServices/http.service';
 import { TokenService } from 'src/app/token.service';
 import { environment } from 'src/environments/environment';
 
@@ -10,12 +11,12 @@ import { environment } from 'src/environments/environment';
 export class NotificationService {
   private apiBaseUrl = environment.apiBaseUrl;
 
-  constructor(private http: HttpClient, private tokenService:TokenService){}
+  constructor(private http: HttpClient, private tokenService:TokenService, private httpService:HttpService){}
 
   insertNotification(notification: any): Observable<any> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.accessToken; // Replace with your actual token
+        const token = sessionStorage.getItem("access_token"); // Replace with your actual token
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`, // Add the token in the Authorization header
@@ -40,7 +41,7 @@ export class NotificationService {
   getLatestNotificationCount(): Observable<any> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.access_token;
+        const token = sessionStorage.getItem("access_token");
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`, // Add the token in the Authorization header
@@ -62,7 +63,7 @@ export class NotificationService {
   getDocumentDetails(documentId: number): Observable<any> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.access_token;
+        const token = sessionStorage.getItem("access_token");
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}` // Add the token in the Authorization header
@@ -84,8 +85,17 @@ export class NotificationService {
     return throwError('Failed to fetch document details; please try again later.');
   }
 
-  generateUrls(filenames: string[]): string[] {
-    return filenames.map(filename => `${this.apiBaseUrl}/archives/${filename}`);
+  generateUrls(filenames: string[]): Observable<Blob>[] {
+    const token = sessionStorage.getItem("access_token");
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    // Return an array of Observables (for each file request)
+    return filenames.map(filename => {
+      const url = `${this.apiBaseUrl}/archives/file/${filename}`;
+      return this.http.get(url, { headers, responseType: 'blob' });
+    });
   }
 
   parseFilenames(filenames: string | string[]): string[] {

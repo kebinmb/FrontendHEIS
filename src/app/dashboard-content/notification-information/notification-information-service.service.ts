@@ -18,7 +18,7 @@ export class NotificationInformationServiceService {
   getMonthlyReports(month:string,year:string):Observable<any[]>{
     return this.tokenService.getToken().pipe(
       switchMap((response:any)=>{
-        const token=response.accessToken;
+        const token=sessionStorage.getItem("access_token");
         const headers = new HttpHeaders({
           'Authorization': `Bearer ${token}`
         });

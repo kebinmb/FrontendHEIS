@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardInfoService } from './dashboard-info.service';
 import * as CryptoJS from 'crypto-js';
+import { HttpService } from 'src/app/OAuthHttpServices/http.service';
 
 @Component({
   selector: 'app-dashboard-info',
@@ -24,13 +25,14 @@ export class DashboardInfoComponent implements OnInit {
   displayedColumns: string[] = ['documentId', 'receiver', 'timestamp'];
   displayedColumnsArchives: string[] = ['documentNumber', 'subject', 'timestamp']; // Define columns for the table
 
-  constructor(private dashboardInfoService: DashboardInfoService) {}
+  constructor(private dashboardInfoService: DashboardInfoService,private http:HttpService) {}
 
   ngOnInit() {
     this.loadUserList(); // Load user list first to ensure receiver mapping works
     this.loadNotifications();
     this.loadArchives();
     this.setCurrentUser();
+    
   }
 
   /** Fetch notifications from the service */

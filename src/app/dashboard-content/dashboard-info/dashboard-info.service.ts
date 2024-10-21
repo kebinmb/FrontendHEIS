@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, switchMap, map, catchError, of } from 'rxjs';
+import { HttpService } from 'src/app/OAuthHttpServices/http.service';
 import { TokenService } from 'src/app/token.service';
 import { environment } from 'src/environments/environment';
 
@@ -10,12 +11,12 @@ import { environment } from 'src/environments/environment';
 })
 export class DashboardInfoService {
   private apiBaseUrl = environment.apiBaseUrl;
-  constructor(private tokenService:TokenService, private http:HttpClient, private snackBar:MatSnackBar) { }
+  constructor(private tokenService:TokenService, private http:HttpClient, private snackBar:MatSnackBar, private httpService:HttpService) { }
 
   getAllNotifications():Observable<any[]>{
     return this.tokenService.getToken().pipe(
       switchMap((response:any)=>{
-        const token=response.accessToken;
+        const token = sessionStorage.getItem("access_token");
         const headers = new HttpHeaders({
           'Authorization': `Bearer ${token}`
         });
@@ -48,7 +49,7 @@ export class DashboardInfoService {
   getArchives(): Observable<any[]> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.accessToken; // Replace with your actual token
+        const token = sessionStorage.getItem("access_token"); // Replace with your actual token
         const headers = new HttpHeaders({
           'Authorization': `Bearer ${token}` // Adjust the token format if necessary
         });
@@ -70,7 +71,7 @@ export class DashboardInfoService {
   getUserList(): Observable<any[]> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.accessToken;
+        const token = sessionStorage.getItem("access_token");
         const headers = new HttpHeaders({
           'Authorization': `Bearer ${token}`
         });

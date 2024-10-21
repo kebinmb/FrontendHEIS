@@ -93,6 +93,7 @@ import { CustomGroupModalComponent } from './dashboard-content/custom-group/cust
 import { LoginComponentComponent } from './Components/login-component/login-component.component';
 import { ProtectedContentComponent } from './Components/protected-content/protected-content.component';
 import { WelcomeContentComponent } from './Components/welcome-content/welcome-content.component';
+import { MatCheckboxModule } from '@angular/material/checkbox'; // Import MatCheckboxModule
 @NgModule({
   declarations: [
     AppComponent,
@@ -183,7 +184,8 @@ import { WelcomeContentComponent } from './Components/welcome-content/welcome-co
     MatProgressBarModule,
     MatOptionModule,
     MatMenuModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatCheckboxModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },DatePipe],
   bootstrap: [AppComponent]

@@ -12,26 +12,13 @@ private logoutUrl = `${this.apiBaseUrl}/user/logout`;
 constructor(private router: Router) {}
 
 // Logout function
-logout(): void {
-  this.clearSessionAndCookies(); // Clear session data
-  this.redirectToLogout(); // Redirect to OAuth2 logout
-}
-
-// Clear localStorage, sessionStorage, and cookies
-private clearSessionAndCookies(): void {
-  sessionStorage.clear();
-  localStorage.clear();
-
-  // Clear cookies (set expiry to past date)
-  const cookies = document.cookie.split(';');
-  for (const cookie of cookies) {
-    const [name] = cookie.split('=');
-    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-  }
-}
-
-// Redirect to OAuth2 logout URL
-private redirectToLogout(): void {
-  window.location.href = this.logoutUrl;
+logout() {
+  sessionStorage.removeItem('access_token');
+  sessionStorage.removeItem('refresh_token');
+  sessionStorage.removeItem('username');
+  sessionStorage.removeItem('access_level');
+  sessionStorage.removeItem('campus');
+  sessionStorage.removeItem('name');
+  this.router.navigate(['/login']); // Redirect to login page
 }
 }

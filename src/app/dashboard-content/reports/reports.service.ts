@@ -45,7 +45,7 @@ export class ReportsService {
   getMonthlyReports(month: string, year: string, name: string): Observable<any[]> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.accessToken; // Replace with your actual token
+        const token = sessionStorage.getItem("access_token");; // Replace with your actual token
         const headers = new HttpHeaders({
           'Authorization': `Bearer ${token}` // Adjust the token format if necessary
         });
@@ -80,7 +80,7 @@ export class ReportsService {
   getUserList(): Observable<any[]> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.accessToken; // Replace with your actual token
+        const token = sessionStorage.getItem("access_token"); // Replace with your actual token
         const headers = new HttpHeaders({
           'Authorization': `Bearer ${token}` // Adjust the token format if necessary
         });
@@ -108,7 +108,7 @@ export class ReportsService {
   getExternalReports(externalDate: string, externalYear: string, name: string): Observable<any[]> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.accessToken; // Replace with your actual token
+        const token = sessionStorage.getItem("access_token"); // Replace with your actual token
         const headers = new HttpHeaders({
           'Authorization': `Bearer ${token}` // Adjust the token format if necessary
         });
@@ -137,7 +137,7 @@ export class ReportsService {
   getDepartmentDetails(): Observable<any[]> {
     return this.tokenService.getToken().pipe(
       switchMap((response: any) => {
-        const token = response.accessToken; // Replace with your actual token
+        const token = sessionStorage.getItem("access_token"); // Replace with your actual token
         const headers = new HttpHeaders({
           'Authorization': `Bearer ${token}` // Adjust the token format if necessary
         });
