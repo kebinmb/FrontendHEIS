@@ -35,7 +35,7 @@ export class EmailIndividualComponent {
     private snackbar:MatSnackBar
   ) {
     this.emailForm = this.formBuilder.group({
-      documentNumber: ['' ,{value: this.nextDocumentNumber.toString()}],
+      documentNumber: [''],
       subject: ['', Validators.required],
       dateOfLetter: ['', Validators.required],
       type: ['', Validators.required],
@@ -43,7 +43,7 @@ export class EmailIndividualComponent {
       through: ['', Validators.required],
       from: ['', Validators.required],
       pageCount: [1, Validators.required],
-      attachment: ['', Validators.required],
+      attachment: [''],
       campus: [4, Validators.required],
       cc: this.formBuilder.array([]),
       encoder: ['4', Validators.required],
@@ -174,7 +174,7 @@ export class EmailIndividualComponent {
       formData.append('attachment', file);
     });
 
-    formData.append('documentNumber', this.nextDocumentNumber.toString());
+    formData.append('documentNumber', documentNumber);
     formData.append('subject', subject);
     formData.append('dateOfLetter', this.formatDate(dateOfLetter));
     formData.append('type', type);
@@ -195,17 +195,31 @@ export class EmailIndividualComponent {
       this.emailService.sendEmail(formData).subscribe({
         next: (response) => {
             this.loading = false;
-            this.snackbar.open("Document Sent Successfully", "Close", {
-              duration: 3000, // Duration in milliseconds
-              horizontalPosition: 'right',
-              verticalPosition: 'top'
-            });
-            setTimeout(() => {
-              this.emailForm.reset();
-              this.router.navigate(['/dashboard/archives'], { skipLocationChange: true }).then(() => {
-                window.location.reload(); // Reload the page if necessary
+            if(formData.get('attachment')!==null){
+              this.snackbar.open("Document Sent Successfully", "Close", {
+                duration: 3000, // Duration in milliseconds
+                horizontalPosition: 'right',
+                verticalPosition: 'top'
               });
-            }, 3000);
+              setTimeout(() => {
+                this.emailForm.reset();
+                this.router.navigate(['/dashboard/archives'], { skipLocationChange: true }).then(() => {
+                  window.location.reload(); // Reload the page if necessary
+                });
+              }, 3000);
+            }else{
+              this.snackbar.open("Document Stored Successfully", "Close", {
+                duration: 3000, // Duration in milliseconds
+                horizontalPosition: 'right',
+                verticalPosition: 'top'
+              });
+              setTimeout(() => {
+                this.emailForm.reset();
+                this.router.navigate(['/dashboard/archives'], { skipLocationChange: true }).then(() => {
+                  window.location.reload(); // Reload the page if necessary
+                });
+              }, 3000);
+            }
         },
         error: (error) => {
             console.error('Error sending email:', error);

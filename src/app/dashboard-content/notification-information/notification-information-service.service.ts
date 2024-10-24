@@ -12,9 +12,6 @@ export class NotificationInformationServiceService {
   private apiBaseUrl = environment.apiBaseUrl;
 
   constructor(private tokenService:TokenService, private http:HttpClient, private snackBar:MatSnackBar) { }
-
-  
-
   getMonthlyReports(month:string,year:string):Observable<any[]>{
     return this.tokenService.getToken().pipe(
       switchMap((response:any)=>{
@@ -44,6 +41,34 @@ export class NotificationInformationServiceService {
         }
         console.error('Failed to fetch monthly reports', error);
         return of([]); // Return an empty array on error
+      })
+    );
+  }
+
+  getUserList(): Observable<any[]> {
+    return this.tokenService.getToken().pipe(
+      switchMap((response: any) => {
+        const token = response.accessToken;
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+        });
+  
+        return this.http.get<any[]>(`${this.apiBaseUrl}/reports/receivers`, {
+          headers: headers,
+          withCredentials: true
+        }).pipe(
+          map((response: any[]) => {
+            return response || []; // No need to JSON.parse as it's already parsed
+          }),
+          catchError((error) => {
+            console.error('Failed to fetch user list', error);
+            return of([]); // Return an empty array on error
+          })
+        );
+      }),
+      catchError((error) => {
+        console.error('Failed to fetch token', error);
+        return of([]); // Return an empty array if token retrieval fails
       })
     );
   }

@@ -46,27 +46,27 @@ export class DashboardInfoService {
     );
   }
 
-  getArchives(): Observable<any[]> {
-    return this.tokenService.getToken().pipe(
-      switchMap((response: any) => {
-        const token = sessionStorage.getItem("access_token"); // Replace with your actual token
-        const headers = new HttpHeaders({
-          'Authorization': `Bearer ${token}` // Adjust the token format if necessary
-        });
-        return this.http.get<any[]>(`${this.apiBaseUrl}/archives/documents`, {
-          headers: headers,
-          withCredentials: true
-        });
-      }),
-      map((response: any[]) => {
-        return response || []; // Return response or an empty array if null/undefined
-      }),
-      catchError((error) => {
-        console.error('Failed to fetch archives', error);
-        return of([]); // Return an empty array on error
-      })
-    );
-  }
+  // getArchives(): Observable<any[]> {
+  //   return this.tokenService.getToken().pipe(
+  //     switchMap((response: any) => {
+  //       const token = sessionStorage.getItem("access_token"); // Replace with your actual token
+  //       const headers = new HttpHeaders({
+  //         'Authorization': `Bearer ${token}` // Adjust the token format if necessary
+  //       });
+  //       return this.http.get<any[]>(`${this.apiBaseUrl}/archives/documents`, {
+  //         headers: headers,
+  //         withCredentials: true
+  //       });
+  //     }),
+  //     map((response: any[]) => {
+  //       return response || []; // Return response or an empty array if null/undefined
+  //     }),
+  //     catchError((error) => {
+  //       console.error('Failed to fetch archives', error);
+  //       return of([]); // Return an empty array on error
+  //     })
+  //   );
+  // }
 
   getUserList(): Observable<any[]> {
     return this.tokenService.getToken().pipe(
@@ -85,6 +85,87 @@ export class DashboardInfoService {
           }),
           catchError((error) => {
             console.error('Failed to fetch user list', error);
+            return of([]); // Return an empty array on error
+          })
+        );
+      }),
+      catchError((error) => {
+        console.error('Failed to fetch token', error);
+        return of([]); // Return an empty array if token retrieval fails
+      })
+    );
+  }
+
+  getRecentDocuments(){
+    return this.tokenService.getToken().pipe(
+      switchMap((response:any)=>{
+        const token = sessionStorage.getItem("access_token");
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+        });
+        return this.http.get<any[]>(`${this.apiBaseUrl}/recent/docs`, {
+          headers: headers,
+          withCredentials: true
+        }).pipe(
+          map((response: any[]) => {
+            return response || []; // No need to JSON.parse as it's already parsed
+          }),
+          catchError((error) => {
+            console.error('Failed to recent documents', error);
+            return of([]); // Return an empty array on error
+          })
+        );
+      }),
+      catchError((error) => {
+        console.error('Failed to fetch token', error);
+        return of([]); // Return an empty array if token retrieval fails
+      })
+    );
+  }
+
+  getTotalDocumentCount(){
+    return this.tokenService.getToken().pipe(
+      switchMap((response:any)=>{
+        const token = sessionStorage.getItem("access_token");
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+        });
+        return this.http.get<any[]>(`${this.apiBaseUrl}/recent/count`, {
+          headers: headers,
+          withCredentials: true
+        }).pipe(
+          map((response: any[]) => {
+            return response || []; // No need to JSON.parse as it's already parsed
+          }),
+          catchError((error) => {
+            console.error('Failed to recent documents', error);
+            return of([]); // Return an empty array on error
+          })
+        );
+      }),
+      catchError((error) => {
+        console.error('Failed to fetch token', error);
+        return of([]); // Return an empty array if token retrieval fails
+      })
+    );
+  }
+
+  getRecentNotifications(){
+    return this.tokenService.getToken().pipe(
+      switchMap((response:any)=>{
+        const token = sessionStorage.getItem("access_token");
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+        });
+        return this.http.get<any[]>(`${this.apiBaseUrl}/recent-notif/notifs`, {
+          headers: headers,
+          withCredentials: true
+        }).pipe(
+          map((response: any[]) => {
+            return response || []; // No need to JSON.parse as it's already parsed
+          }),
+          catchError((error) => {
+            console.error('Failed to recent documents', error);
             return of([]); // Return an empty array on error
           })
         );

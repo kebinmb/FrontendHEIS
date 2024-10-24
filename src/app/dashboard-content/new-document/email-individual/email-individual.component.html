@@ -14,7 +14,7 @@
               id="documentNumber"
               formControlName="documentNumber"
               type="number"
-              [value]="nextDocumentNumber"
+              placeholder="{{nextDocumentNumber}}"
             />
             <mat-error *ngIf="getControl('documentNumber')?.invalid">
               <span *ngIf="getControl('documentNumber')?.errors?.['required']"

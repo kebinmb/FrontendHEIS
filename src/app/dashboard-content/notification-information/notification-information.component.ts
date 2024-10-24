@@ -42,11 +42,13 @@ export class NotificationInformationComponent implements OnInit {
   const currentYear = new Date().getFullYear();
     this.notificationInformationService.getMonthlyReports(currentMonth.toString(), currentYear.toString()).subscribe({
       next: (documents: any) => {
+        console.log("Document List",documents)
         this.listOfDocuments = documents;
-        this.archiveService.getUserList().subscribe({
+        this.notificationInformationService.getUserList().subscribe({
           next: (users: any) => {
             this.userList = users;
             this.documentListWithName = this.mapDocumentsWithNames(this.listOfDocuments, this.userList);
+            console.log("Document List With Names",this.documentListWithName)
             this.loadNotifications();
           },
           error: () => this.showSnackBar('Failed to load user list')
@@ -59,6 +61,7 @@ export class NotificationInformationComponent implements OnInit {
   private loadNotifications(): void {
     this.receiverModal.getNotifications().subscribe({
       next: (notifications: any[]) => {
+        console.log(notifications);
         this.documentListWithName = this.documentListWithName.map((doc: any) => ({
           ...doc,
           alignedReceivers: this.mapReceiversWithViewedStatus(doc.attention, doc.documentNumber, notifications)
@@ -78,7 +81,7 @@ export class NotificationInformationComponent implements OnInit {
       .map((doc: any) => {
         const receiverNames = this.getNamesFromIds(doc.attention);
         const senderName = this.getSingleNameFromId(doc.from);
-
+        console.log("Documents:",doc)
         return {
           ...doc,
           receiver: receiverNames.map((r) => r.name).join(', '),
@@ -110,7 +113,7 @@ export class NotificationInformationComponent implements OnInit {
     notifications: any[]
   ): any[] {
     const receiverIds = attention.split(',').map((id) => id.trim());
-    
+    console.log(receiverIds);
     return receiverIds.map((receiverId) => {
       const user = this.userList.find((user: any) => user.userId.toString() === receiverId);
       

@@ -4,6 +4,7 @@ import { NotificationService } from './notification.service';
 import { TokenService } from 'src/app/token.service';
 import { jwtDecode } from "jwt-decode";  // Import jwt-decode
 import { AuthService } from 'src/app/auth.service';
+import { forkJoin } from 'rxjs';
 
 interface DecodedTokenPayload {
   sub: string; // Subject (user ID)
@@ -134,16 +135,51 @@ export class NotificationsComponent implements OnInit {
     });
   }
   loadFiles(filenames: string[]) {
-    this.notificationService.generateUrls(filenames).forEach(fileObservable => {
-      fileObservable.subscribe(blob => {
-        // Convert the blob into a URL and store it in the array
-        const objectUrl = URL.createObjectURL(blob);
-        this.documentImage.push(objectUrl);
-        console.log(this.documentImage)
-      }, error => {
-        console.error('Error fetching file:', error);
-      });
-    });
+    const fileObservables = this.notificationService.generateUrls(filenames);
+  
+    // Open windows immediately to avoid popup blocking.
+    const openWindows = filenames.map(() => this.openBlankWindow());
+  
+    forkJoin(fileObservables).subscribe(
+      (blobs: Blob[]) => {
+        blobs.forEach((blob, index) => {
+          const objectUrl = URL.createObjectURL(blob);
+  
+          if (blob.type === 'application/pdf') {
+            // Load the PDF into the already opened window
+            this.loadPdfInWindow(openWindows[index], objectUrl);
+          } else {
+            // Handle image URLs
+            this.documentImage.push(objectUrl);
+            console.log("Image URLs:", this.documentImage);
+          }
+  
+          console.log("Object URL:", objectUrl);
+        });
+      },
+      error => {
+        console.error('Error fetching files:', error);
+      }
+    );
+  }
+  
+  // Open a blank window immediately.
+  openBlankWindow(): Window | null {
+    const win = window.open('', '_blank');
+    if (!win) {
+      console.error('Popup blocked. Please allow popups.');
+    }
+    return win;
+  }
+  
+  // Load PDF into the already opened window.
+  loadPdfInWindow(win: Window | null, url: string) {
+    if (win) {
+      win.location.href = url; // Load the PDF
+      win.focus(); // Bring the window to the front
+    } else {
+      console.error('Failed to open the PDF window.');
+    }
   }
   createNotification() {
     this.notificationService.insertNotification(this.newNotification).subscribe({
