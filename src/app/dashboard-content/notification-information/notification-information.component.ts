@@ -5,7 +5,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { map } from 'rxjs';
+import { forkJoin } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { ReceiverModalComponent } from './receiver-modal/receiver-modal.component';
 import { ReceiverModalServiceService } from './receiver-modal/receiver-modal-service.service';
@@ -16,17 +17,22 @@ import { ReceiverModalServiceService } from './receiver-modal/receiver-modal-ser
   styleUrls: ['./notification-information.component.css']
 })
 export class NotificationInformationComponent implements OnInit {
-  listOfDocuments:any[]=[];
-  userList:any[]=[];
-  documentListWithName:any[]=[];
+  listOfDocuments: any[] = [];
+  userList: any[] = [];
+  documentListWithName: any[] = [];
   displayedColumns: string[] = ['documentNumber', 'receivers', 'sender', 'timestamp'];
-  dataSourceNotifications = new MatTableDataSource<any>;
+  dataSourceNotifications = new MatTableDataSource<any>();
+  
   @ViewChild(MatPaginator) paginatorNotifications!: MatPaginator;
   @ViewChild(MatSort) sortNotifications!: MatSort;
-  constructor(private receiverModal:ReceiverModalServiceService,private notificationInformationService: NotificationInformationServiceService, private archiveService: ArchiveService, private snackBar:MatSnackBar, private dialog:MatDialog) {
-    
-    
-  }
+
+  constructor(
+    private receiverModal: ReceiverModalServiceService,
+    private notificationInformationService: NotificationInformationServiceService,
+    private archiveService: ArchiveService,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.loadDocumentsAndUsers();
@@ -39,22 +45,28 @@ export class NotificationInformationComponent implements OnInit {
 
   private loadDocumentsAndUsers(): void {
     const currentMonth = new Date().getMonth() + 1; // Months are 0-indexed
-  const currentYear = new Date().getFullYear();
-    this.notificationInformationService.getMonthlyReports(currentMonth.toString(), currentYear.toString()).subscribe({
-      next: (documents: any) => {
-        console.log("Document List",documents)
-        this.listOfDocuments = documents;
-        this.notificationInformationService.getUserList().subscribe({
-          next: (users: any) => {
-            this.userList = users;
-            this.documentListWithName = this.mapDocumentsWithNames(this.listOfDocuments, this.userList);
-            console.log("Document List With Names",this.documentListWithName)
-            this.loadNotifications();
-          },
-          error: () => this.showSnackBar('Failed to load user list')
-        });
-      },
-      error: () => this.showSnackBar('Failed to load documents')
+    const currentYear = new Date().getFullYear();
+
+    // Use forkJoin to execute both requests in parallel
+    forkJoin({
+      documents: this.notificationInformationService.getMonthlyReports(currentMonth.toString(), currentYear.toString()).pipe(
+        catchError(() => {
+          this.showSnackBar('Failed to load documents');
+          return []; // Fallback to an empty array
+        })
+      ),
+      users: this.notificationInformationService.getUserList().pipe(
+        catchError(() => {
+          this.showSnackBar('Failed to load user list');
+          return []; // Fallback to an empty array
+        })
+      )
+    }).subscribe(({ documents, users }) => {
+      this.listOfDocuments = documents;
+      this.userList = users;
+      this.documentListWithName = this.mapDocumentsWithNames(this.listOfDocuments, this.userList);
+      console.log("Document List With Names", this.documentListWithName);
+      this.loadNotifications();
     });
   }
 
@@ -76,12 +88,13 @@ export class NotificationInformationComponent implements OnInit {
   private showSnackBar(message: string): void {
     this.snackBar.open(message, 'Close', { duration: 3000 });
   }
-  mapDocumentsWithNames(documents: any[], users: any[]): any[] {
+
+  private mapDocumentsWithNames(documents: any[], users: any[]): any[] {
     return documents
       .map((doc: any) => {
         const receiverNames = this.getNamesFromIds(doc.attention);
         const senderName = this.getSingleNameFromId(doc.from);
-        console.log("Documents:",doc)
+        console.log("Documents:", doc);
         return {
           ...doc,
           receiver: receiverNames.map((r) => r.name).join(', '),
@@ -89,25 +102,23 @@ export class NotificationInformationComponent implements OnInit {
           receivers: receiverNames, // Store this for use in the modal
         };
       })
-      // Sort documents in descending order based on documentNumber
       .sort((a, b) => b.documentNumber - a.documentNumber); // Assuming documentNumber is a numeric value
-}
+  }
 
-
-  getNamesFromIds(ids: string): any[] {
+  private getNamesFromIds(ids: string): any[] {
     const idArray = ids.split(',').map((id) => id.trim());
     return idArray.map((id) => {
       const user = this.userList.find((user: any) => user.userId.toString() === id);
-      return { name: user ? user.name : `Unknown ` };
+      return { name: user ? user.name : `Unknown` };
     });
   }
 
-  getSingleNameFromId(id: string): string {
+  private getSingleNameFromId(id: string): string {
     const user = this.userList.find((user: any) => user.userId.toString() === id);
     return user ? user.name : id;
   }
 
-  mapReceiversWithViewedStatus(
+  private mapReceiversWithViewedStatus(
     attention: string,
     documentNumber: string,
     notifications: any[]
@@ -116,7 +127,6 @@ export class NotificationInformationComponent implements OnInit {
     console.log(receiverIds);
     return receiverIds.map((receiverId) => {
       const user = this.userList.find((user: any) => user.userId.toString() === receiverId);
-      
       const matchedNotification = notifications.find(
         (notification: any) =>
           notification.documentId === documentNumber && // Correctly use logical AND (&&)
@@ -128,7 +138,6 @@ export class NotificationInformationComponent implements OnInit {
       };
     });
   }
-  
 
   openModal(document: any): void {
     this.dialog.open(ReceiverModalComponent, {
@@ -136,8 +145,6 @@ export class NotificationInformationComponent implements OnInit {
       width: '80vw',
       maxWidth: '95vw',
       maxHeight: '100vh',
-      
     });
   }
-  
 }
